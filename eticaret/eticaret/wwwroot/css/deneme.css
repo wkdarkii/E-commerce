@@ -1,0 +1,59 @@
+﻿.profile-section {
+    display: flex;
+    align-items: center;
+    background-color: #fff; /* Beyaz arka plan */
+    padding: 5px 15px;
+    height: 50px; /* Sabit yükseklik */
+    position: fixed;
+    top: 0;
+    right: 0;
+    border-radius: 25px;
+    margin: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15); /* Geliştirilmiş gölge efekti */
+    width: 60px; /* Başlangıç genişliği */
+    transition: width 0.6s ease, background-color 0.6s ease, box-shadow 0.6s ease; /* Sadece genişlik ve diğer özelliklere geçiş ekleniyor */
+}
+
+.profile-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid #ccc; /* Hafif kenarlık */
+}
+
+.profile-info {
+    display: none; /* Profil bilgilerini varsayılan olarak gizle */
+    flex-direction: column;
+    align-items: flex-start;
+    opacity: 0; /* Başlangıçta gizli */
+    transition: opacity 0.6s ease; /* Opaklık için geçiş süresi */
+}
+
+.user-name {
+    font-weight: bold;
+    margin: 0;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.user-email {
+    margin: 0;
+    color: #777;
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+/* Hover etkisi */
+.profile-section:hover {
+    width: 200px; /* Hover sırasında genişleme sadece sola doğru genişleyecek */
+    background-color: #f5f5f5; /* Hover sırasında açık arka plan */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+    .profile-section:hover .profile-info {
+        display: flex; /* Profil bilgilerini hover'da göster */
+        opacity: 1; /* Profil bilgilerini yavaşça görünür yap */
+    }

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<eticaret.Models.Siparis>
+
+@{
+    ViewData["Title"] = "Siparis";
+    Layout = "~/Areas/Admin/Views/Layout/PanelLayout.cshtml";
+}
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Sipariş Yönetimi</h6>
+            <div>
+                <button class="btn btn-primary filter-btn" data-status="">Tüm Siparişler</button>
+                <button class="btn btn-primary filter-btn" data-status="Sipariş Onaylandı">Sipariş Onaylandı</button>
+                <button class="btn btn-primary filter-btn" data-status="Kargoya Verildi">Kargoya Verildi</button>
+                <button class="btn btn-primary filter-btn" data-status="Teslim Edildi">Teslim Edildi</button>
+                <button class="btn btn-primary filter-btn" data-status="İptal Edildi">İptal Edildi</button>
+            </div>
+            <a href="">Tüm Siparişleri Göster</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-white">
+                        <th scope="col">Sipariş ID</th>
+                        <th scope="col">Kullanıcı ID</th>
+                        <th scope="col">Ürün Adı</th>
+                        <th scope="col">Ürün Açıklaması</th>
+                        <th scope="col">Ürün Resmi</th>
+                        <th scope="col">Sipariş Tarihi</th>
+                        <th scope="col">Sipariş Durumu</th>
+                        <th scope="col">Güncelle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var siparis in Model)
+                    {
+                        <tr>
+                            <td>@siparis.Id</td>
+                            <td>@siparis.UserId</td>
+                            <td>@siparis.Product.name</td>
+                            <td>@siparis.Product.label</td>
+                            <td>
+                                <img src="~/dasdasdsadasas/www.elathemes.com/themes/lager/assets/images/@siparis.Product.img" alt="@siparis.Product.name" width="100" />
+                            </td>
+                            <td>@siparis.SiparisTarihi.ToString("dd.MM.yyyy")</td>
+                            <td>@siparis.SiparisDurumu</td>
+                            <td>
+                                @using (Html.BeginForm("UpdateOrderStatus", "Siparisler", FormMethod.Post, new { area = "Admin" }))
+                                {
+                                    @Html.Hidden("id", siparis.Id)
+                                    @Html.DropDownList("newStatus", new SelectList(new List<string>
+                                {
+                            "Sipariş Onaylandı",
+                            "Kargoya Verildi",
+                            "Teslim Edildi",
+                            "İptal Edildi"
+                            }, siparis.SiparisDurumu), new { @class = "form-select" })
+                                    <input type="submit" value="Güncelle" class="btn btn-sm btn-primary mt-2" />
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Yapısı -->
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div id="caption"></div>
+</div>
+
+<script>
+    // Resme tıklama ile modal açma
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImage");
+    var captionText = document.getElementById("caption");
+
+    document.querySelectorAll('img').forEach(img => {
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+    });
+
+    // Modal kapatma
+    document.querySelector('.close').onclick = function() {
+        modal.style.display = "none";
+    }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const rows = document.querySelectorAll('.siparis-row');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const status = this.getAttribute('data-status');
+
+                rows.forEach(row => {
+                    if (status === '' || row.getAttribute('data-status') === status) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+

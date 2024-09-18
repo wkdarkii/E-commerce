@@ -1,0 +1,136 @@
+﻿@model IEnumerable<eticaret.Models.Kullanicininsattig>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Layout/PanelLayout.cshtml";
+}
+
+
+
+<!-- Stil için basit bir CSS ekleyelim -->
+<style>
+    table {
+        width: 100%;
+        background-color: #2c2c2c; /* Koyu gri arka plan */
+        border-collapse: separate; /* Boşluklar için ayrı kenarlıklar */
+        border-spacing: 0 10px; /* Satırlar arasına boşluk ekler */
+        margin: 20px 0;
+        font-size: 16px;
+        text-align: left;
+        border-radius: 8px; /* Hafif köşeler */
+        overflow: hidden; /* Kenar yuvarlamasını korur */
+    }
+
+        table th, table td {
+            padding: 12px 15px;
+            color: #f1f1f1; /* Daha açık beyaz yazı rengi */
+            vertical-align: middle; /* Hücre içeriğini ortalar */
+        }
+
+        table th {
+            background-color: #3e3e3e; /* Daha koyu gri başlıklar */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        table tr {
+            border-bottom: 1px solid #444; /* Hafif gri alt çizgiler */
+        }
+
+            table tr:nth-child(even) {
+                background-color: #333; /* Alternatif satır renklendirmesi */
+            }
+
+            table tr:hover {
+                background-color: #555; /* Hover efekti */
+                transition: background-color 0.3s ease;
+            }
+
+        table td {
+            border-bottom: 1px solid #444; /* Satır alt çizgileri */
+        }
+
+            table td:last-child {
+                border-right: none; /* Son sütun için sağ sınır kaldırma */
+            }
+
+        table th:last-child {
+            border-right: none; /* Son sütun için sağ sınır kaldırma */
+        }
+
+    /* Resimlerin boyutlarını sabitle */
+    img {
+        max-width: 100px; /* Resim genişliğini sınırla */
+        max-height: 100px; /* Resim yüksekliğini sınırla */
+        width: auto;
+        height: auto;
+    }
+</style>
+
+
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Ürün ID</th>
+            <th>Satıcı ID</th>
+            <th>Satın Alan ID</th>
+            <th>Ürün Adı</th>
+            <th>Fiyat</th>
+          
+            <th>Ürün Acıklama</th>
+            <th>Ürün Resim</th>
+            <!-- İhtiyacınıza göre diğer başlıklar -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr onclick="submitReport('@item.UrunId', '@item.SaticiId', '@item.SatinAlanId', '@item.UrunAdi', '@item.UrunFiyat', '@item.UrunAciklama', '@item.UrunResim')">
+                <td>@item.UrunId</td>
+                <td>@item.SaticiId</td>
+                <td>@item.SatinAlanId</td>
+                <td>@item.UrunAdi</td>
+                <td>@item.UrunFiyat</td>
+               
+                <td>@item.UrunAciklama</td>
+                <td> <img src="~/images/@item.UrunResim" /> </td>
+                
+                <!-- İhtiyacınıza göre diğer sütunlar -->
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Gizli form, bilgileri controller'a gönderir -->
+<form id="reportForm" action="/Admin/Rapor/Index" method="post" style="display:none;">
+    <input type="hidden" name="UrunId" id="UrunId" />
+    <input type="hidden" name="SaticiId" id="SaticiId" />
+    <input type="hidden" name="SatinAlanId" id="SatinAlanId" />
+    <input type="hidden" name="UrunAdi" id="UrunAdi" />
+    <input type="hidden" name="UrunFiyat" id="UrunFiyat" />
+    <input type="hidden" name="UrunAciklama" id="UrunAciklama" />
+    <input type="hidden" name="UrunResim" id="UrunResim" />
+</form>
+
+
+
+<script>
+
+    function submitReport(urunId, saticiId, satinAlanId, urunAdi, urunFiyat, urunAciklama, urunResim) {
+        // Form alanlarını dolduruyoruz
+        document.getElementById('UrunId').value = urunId;
+        document.getElementById('SaticiId').value = saticiId;
+        document.getElementById('SatinAlanId').value = satinAlanId;
+        document.getElementById('UrunAdi').value = urunAdi;
+        document.getElementById('UrunFiyat').value = urunFiyat;
+        document.getElementById('UrunAciklama').value = urunAciklama;
+        document.getElementById('UrunResim').value = urunResim;
+
+        // Formu otomatik gönderiyoruz
+        document.getElementById('reportForm').submit();
+    }
+
+</script>

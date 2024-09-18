@@ -1,0 +1,253 @@
+/* Genel stil ayarları */
+body {
+    background-image: url('office-supplies.jpg'); /* Arka plan resmini ekle */
+    background-size: cover; /* Resmi tam ekran yap */
+    background-position: center; /* Resmi ortala */
+    background-repeat: no-repeat; /* Tekrar etme */
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.profile-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.profile-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+}
+/* Yarı saydam arka plan için */
+.profile-card {
+    background-color: rgb(240,240,240); /* Yarı saydam siyah arka plan */
+    /* Beyaz yazı rengi */
+ 
+    border-radius: 10px; /* Hafif yuvarlatılmış köşeler */
+     /* Gölge efekti */
+}
+
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+button:active {
+    background: #004494;
+}
+
+
+
+/***********************************************/
+
+/* Form group container */
+.form-group.inputcinsiyet {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Label styling */
+.form-group.inputcinsiyet label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Select box styling */
+.form-group.inputcinsiyet select {
+    width: 120px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+/* Hover effects for the select box */
+.form-group.inputcinsiyet select:hover {
+    background-color: #e6e6e6;
+    border-color: #999;
+    cursor: pointer;
+}
+
+/* Focus effect for the select box */
+.form-group.inputcinsiyet select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Option styling */
+.form-group.inputcinsiyet select option {
+    padding: 5px;
+}
+
+/*****************************************/
+/* Sol üst köşe için stil */
+.left-div {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateY(10px); /* Ekranın üstünden biraz uzak */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+/* Geri dön simgesi için stil */
+.back-icon {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Geriye Dön yazısının stili */
+.tooltip {
+    position: absolute;
+    left: -150px; /* Başlangıç noktası, gizli olacak şekilde ayarla */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, transform 0.3s; /* Opaklık ve hareket için geçiş */
+}
+
+
+/* Tooltip başlangıçta gizli */
+.tooltipdsdas {
+    display: none; /* Başlangıçta görünmez */
+
+}
+
+/* Tooltip başlangıçta gizli */
+.tooltipdsdas {
+    display: none; /* Başlangıçta görünmez */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 1000; /* Tooltip'in diğer öğelerin üstünde görünmesi için */
+    transform: translateY(-10px); /* Tooltip'in yavaşça görünmesi için */
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Tooltip görünür hale gelir */
+.eeeeeee:hover .tooltipdsdas {
+    display: block; /* Görünür hale getir */
+    margin-left: 55px;
+    opacity: 1;
+    transform: translateY(0); /* Tooltip'in yavaşça görünmesi */
+}
+
+
+/* Hover ile geri dön yazısının görünür hale gelmesi */
+.left-div:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); /* Sağdan sola doğru hareket */
+}
+
+/* Sağ üst köşe için stil */
+.right-div {
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: translateY(10px); /* Ekranın üstünden biraz uzak */
+    z-index: 1000;
+}
+
+/* Sağ üst köşedeki butonun stili */
+#seller-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+}

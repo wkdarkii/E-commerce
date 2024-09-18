@@ -1,0 +1,46 @@
+﻿@model eticaret.Models.ProductDetailsViewModel
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Detayları</title>
+    <link rel="stylesheet" href="~/kullanicisatisurun/satis.css">
+</head>
+<body>
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="product-card">
+                <img src="~/images/@Model.Product.UrunResim" alt="@Model.Product.UrunAdi" class="product-image">
+                <h3>@Model.Product.UrunAdi</h3>
+                <p class="price">₺@Model.Product.UrunFiyat</p>
+                <p class="description">@Model.Product.UrunAciklama</p>
+                <form action="/KullaniciProductSatis/UrunBilgileriniAl" method="post">
+                    <input type="hidden" name="ProductId" value="@Model.Product.Id" />
+                    <input type="hidden" name="UrunAdi" value="@Model.Product.UrunAdi" />
+                    <input type="hidden" name="UrunFiyat" value="@Model.Product.UrunFiyat" />
+                    <input type="hidden" name="UrunAciklama" value="@Model.Product.UrunAciklama" />
+                    <button type="submit" class="btn">Satın Al</button>
+                </form>
+
+            </div>
+            <div class="seller-info">
+                <h4>Satıcı Bilgileri</h4>
+                <p>Adı: @Model.Seller.Kullanici_adi</p>
+                <p>Email: @Model.Seller.Email</p>
+                <p>Telefon: @Model.Seller.PhoneNumber</p>
+                <p>Adres: @Model.Seller.Adres</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/js/scripts.js"></script>
+</body>
+</html>

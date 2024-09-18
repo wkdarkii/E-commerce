@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model IEnumerable<eticaret.Models.Kullanicininsattig>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satılan Ürünler</title>
+    <link rel="stylesheet" href="~/css/siparisOnay.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Satılan Ürünler</h1>
+        <table>
+            <thead>
+                <tr>
+
+                    <th>Ürün Adı</th>
+                    <th>Açıklama</th>
+                    <th>Fiyat</th>
+                    <th>Resim</th>
+                    <th>Detaylar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var urun in Model)
+                {
+                    <tr>
+                        <td>@urun.UrunAdi</td>
+                        <td>@urun.UrunAciklama</td>
+                        <td>₺@urun.UrunFiyat</td>
+                        <td><img src="~/images/@urun.UrunResim" alt="@urun.UrunAdi" class="product-image"></td>
+                        <td><a href="@Url.Action("Rapor", "Kullanıcıarayüz", new { id = urun.Id })" class="btn">Detayları Gör</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

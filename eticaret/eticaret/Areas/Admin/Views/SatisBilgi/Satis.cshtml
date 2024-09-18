@@ -1,0 +1,202 @@
+﻿
+@{
+    ViewData["Title"] = "Satis";
+    Layout = "~/Areas/Admin/Views/Layout/PanelLayout.cshtml";
+}
+
+
+<style>
+    .content > * {
+        padding-right: 80px; /* Boşluğun büyüklüğünü buradan ayarlayabilirsiniz */
+    }
+
+    .content > * {
+        margin-left: 0; /* Soldan boşluğu kaldırır */
+        padding-left: 0; /* Soldan padding'i kaldırır */
+    }
+
+
+
+</style>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <!-- Table Start -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Toplam Para Bilgileri</h6>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı Adı</th>
+                            <th>Toplam Miktar</th>
+                            <th>Son Alma Zamanı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.KullaniciAdi</td>
+                                <td>@item.ToplamMiktar.ToString("C")</td>
+                                <td>@item.SonAlmaZamani.ToString("dd/MM/yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Table End -->
+        <!-- Charts Start -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Toplam Miktar (Pasta Grafik)</h6>
+                <canvas id="pie-chart"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Son Alma Zamanı (Sütun Grafik)</h6>
+                <canvas id="bar-chart"></canvas>
+            </div>
+        </div>
+        <!-- Charts End -->
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Pie Chart for Total Amount
+        var ctxPie = document.getElementById('pie-chart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: [
+    @foreach (var item in Model)
+    {
+        @: '@item.KullaniciAdi',
+    }
+                        ],
+                datasets: [{
+                    label: 'Toplam Miktar',
+                    data: [
+    @foreach (var item in Model)
+    {
+        @: @item.ToplamMiktar,
+    }
+                            ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+
+        // Bar Chart for Total Sales per Day
+        var ctxBar = document.getElementById('bar-chart').getContext('2d');
+
+        // Group data by date and calculate total sales for each date
+        var dataByDate = {};
+    @foreach (var item in Model)
+    {
+        var date = item.SonAlmaZamani.ToString("yyyy-MM-dd");
+        var amount = item.ToplamMiktar;
+
+        @:dataByDate['@date'] = (dataByDate['@date'] || 0) + @amount;
+    }
+
+                var labels = Object.keys(dataByDate);
+        var data = labels.map(date => dataByDate[date]);
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Toplam Satış Miktarı',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tarih'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Toplam Miktar'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

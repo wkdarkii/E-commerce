@@ -1,0 +1,240 @@
+﻿@{
+    Layout = null;
+    var userSellers = ViewData["UserSellers"] as List<eticaret.Models.Seller>;
+    var userInfo = ViewData["UserInfo"] as eticaret.Models.User;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letgo Listing</title>
+    <link rel="stylesheet" href="~/css/Satici_Ilanlar/StyleSheet.css">
+
+    <style>
+
+      
+
+        .image-gallery {
+            flex: 1;
+            max-width: 250px; /* Resmin genişliği */
+            max-height: 250px; /* Resmin yüksekliği */
+            margin-right: 20px;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+            .image-gallery img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Resmin bozulmadan sığmasını sağlar */
+                border-radius: 8px;
+            }
+
+        button {
+            background-color: #4CAF50; /* Yeşil bir arka plan */
+            color: white; /* Beyaz metin */
+            padding: 15px 32px; /* Yatay ve dikey iç boşluklar */
+            font-size: 16px; /* Yazı tipi boyutu */
+            font-weight: bold; /* Kalın yazı tipi */
+            border: none; /* Kenar çizgisi yok */
+            border-radius: 8px; /* Hafif köşe yuvarlama */
+            box-shadow: 0 4px #2d7d38; /* Düğmeye derinlik eklemek için gölge */
+            cursor: pointer; /* İmleci pointer yap */
+            transition: all 0.3s ease; /* Geçiş efektleri için süre */
+        }
+
+            button:hover {
+                background-color: #45a049; /* Üzerine gelince daha koyu yeşil */
+                box-shadow: 0 6px #276c32; /* Daha büyük gölge */
+                transform: translateY(-2px); /* Butonun biraz yukarı kayması */
+            }
+
+            button:active {
+                background-color: #3e8e41; /* Tıklandığında daha koyu bir yeşil */
+                box-shadow: 0 2px #276c32; /* Daha küçük gölge */
+                transform: translateY(2px); /* Butonun biraz aşağı kayması */
+            }
+
+        .empty-product-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f9f9f9;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .form-dialog h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-dialog p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-dialog button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .form-dialog button:hover {
+                background-color: #45a049;
+            }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span>
+
+                <form action="@Url.Action("Index", "Main")" method="get">
+                    <button type="submit">Home</button>
+                </form>
+                
+                
+                
+                </span>
+        </div>
+        <div class="location">
+            <input type="text" id="searchInput" placeholder="Ürün Ara">
+        </div>
+     
+        <div class="user-options">
+            <form action="@Url.Action("Index", "Satici_Olustur")" method="get">
+                <button type="submit">Sat</button>
+            </form>
+
+            <img src="~/Kullanici_img/@userInfo.Profil_Foto" alt="User" id="profilePhoto" style="cursor:pointer;">
+
+        </div>
+    </header>
+
+    <main>
+        <!-- Ürünlerin listelendiği kısım -->
+        <div class="product-list" style="padding-left:100px;">
+            @foreach (var item in userSellers)
+            {
+                <div class="listing" style="padding-left:25px;" data-urunadi="@item.UrunAdi">
+                    <div class="image-gallery">
+                        <img src="~/images/@item.UrunResim" alt="@item.UrunAdi">
+                    </div>
+                    <div class="details">
+                        <h1>@item.UrunFiyat TL</h1>
+                        <p>@item.UrunAdi</p>
+                        <div class="location">@item.Ilce, @item.Sehir, Türkiye</div>
+                        <div class="seller-info">
+                            <p>@userInfo.Kullanici_adi</p>
+                        </div>
+                        <div class="actions">
+                            <button>
+                                <a asp-action="Duzenle" asp-controller="Ilanlar" asp-route-id="@item.Id" class="btn btn-warning" style="text-decoration:none; color: inherit;">Düzenle</a>
+                            </button>
+                            <form asp-action="Sil" asp-controller="Ilanlar" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger">İlanı kaldır</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </main>
+    <!-- Kullanıcı bilgileri -->
+    <div class="more-info">
+        <div class="section">
+            <h3>Kullanıcı Bilgileri</h3>
+            <ul>
+                <li>Kullanıcı Adı: @userInfo.Kullanici_adi</li>
+                <li>Cinsiyet: @(userInfo.Cinsiyet ? "Erkek" : "Kadın")</li>
+
+                <li>Doğum Tarihi: @userInfo.D_Tarihi.ToShortDateString()</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var productList = document.querySelector('.product-list');
+
+            if (productList.children.length === 0) {
+                // Eğer product-list boşsa, formu göster
+                var main = document.querySelector('main');
+
+                var formContainer = document.createElement('div');
+                formContainer.className = 'empty-product-form';
+
+                var formContent = `
+                    <div class="form-dialog" style="position: relative;">
+                        <span class="close-button" style="
+                            position: absolute;
+                            top: 5px;
+                            right: 5px;
+                            cursor: pointer;
+                            font-size: 24px; /* Boyutu büyüttüm */
+                            line-height: 24px; /* Boyutu büyüttüm */
+                        ">&times;</span>
+                        <h2>İlanınız Yok!</h2>
+                        <p>Hadi bir şeyler satmaya başla :)</p>
+                        <button onclick="window.location.href='/Satici_Olustur/Index'">İlan Oluştur</button>
+                    </div>
+                `;
+
+                formContainer.innerHTML = formContent;
+                main.appendChild(formContainer);
+
+                // Kapatma düğmesi için tıklama olayını ekleyin
+                var closeButton = document.querySelector('.close-button');
+                closeButton.addEventListener('click', function () {
+                    formContainer.remove(); // Formu ekrandan kaldır
+                });
+            }
+        });
+
+
+
+
+
+        document.getElementById('profilePhoto').addEventListener('click', function () {
+            window.location.href = '/Kullanıcıarayüz/Profili'; // Buraya gitmek istediğiniz URL'yi yazın
+        });
+
+
+
+        document.getElementById('searchInput').addEventListener('input', function () {
+            var searchTerm = this.value.toLowerCase(); // Arama terimini al ve küçük harfe çevir
+            var listings = document.querySelectorAll('.listing'); // Tüm ürünleri seç
+
+            listings.forEach(function (listing) {
+                var urunAdi = listing.getAttribute('data-urunadi').toLowerCase(); // Ürün adını al ve küçük harfe çevir
+
+                if (urunAdi.startsWith(searchTerm)) { // Eğer ürün adı arama terimi ile başlıyorsa
+                    listing.style.display = 'block'; // Ürünü göster
+                } else {
+                    listing.style.display = 'none'; // Ürünü gizle
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>

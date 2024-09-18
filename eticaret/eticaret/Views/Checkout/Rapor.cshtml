@@ -1,0 +1,343 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> Order confirmation </title>
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0;" />
+    <link rel="stylesheet" media="all" href="~/Kullanici_Satislari/Rapor.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+
+
+    <!-- Header -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+        <tr>
+            <td height="20"></td>
+        </tr>
+        <tr>
+            <td>
+                <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable"
+                       bgcolor="#ffffff" style="border-radius: 10px 10px 0 0;">
+                    <tr class="hiddenMobile">
+                        <td height="40"></td>
+                    </tr>
+                    <tr class="visibleMobile">
+                        <td height="30"></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <table width="480" border="0" cellpadding="0" cellspacing="0" align="center"
+                                   class="fullPadding">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <table width="220" border="0" cellpadding="0" cellspacing="0" align="left"
+                                                   class="col">
+                                                <tbody>
+                                                    <tr>
+                                                        <td align="left">
+                                                            <img src="http://www.supah.it/dribbble/017/logo.png"
+                                                                 width="32" height="32" alt="logo" border="0" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="hiddenMobile">
+                                                        <td height="40"></td>
+                                                    </tr>
+                                                    <tr class="visibleMobile">
+                                                        <td height="20"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: left;">
+                                                            Hello, Philip Brooks.
+                                                            <br> Thank you for shopping from our store and for your
+                                                            order.
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table width="220" border="0" cellpadding="0" cellspacing="0" align="right"
+                                                   class="col">
+                                                <tbody>
+                                                    <tr class="visibleMobile">
+                                                        <td height="20"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size: 21px; color: #ff0000; letter-spacing: -1px; font-family: 'Open Sans', sans-serif; line-height: 1; vertical-align: top; text-align: right;">
+                                                            Invoice
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    <tr class="hiddenMobile">
+                                                        <td height="50"></td>
+                                                    </tr>
+                                                    <tr class="visibleMobile">
+                                                        <td height="20"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
+                                                            <small>ORDER</small> #800000025<br />
+                                                            <small>MARCH 4TH 2016</small>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!-- /Header -->
+    <!-- Order Details -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+        <tbody>
+            <tr>
+                <td>
+                    <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable"
+                           bgcolor="#ffffff">
+                        <tbody>
+                            <tr>
+                            <tr class="hiddenMobile">
+                                <td height="60"></td>
+                            </tr>
+                            <tr class="visibleMobile">
+                                <td height="40"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="480" border="0" cellpadding="0" cellspacing="0" align="center"
+                                           class="fullPadding">
+                                        <tbody>
+                                            <tr>
+                                                <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;"
+                                                    width="52%" align="left">
+                                                    Ürün Adı
+                                                </th>
+                                                <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 0 7px;"
+                                                    align="left">
+                                                    Fiyat
+                                                </th>
+                                                <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 0 7px;"
+                                                    align="center">
+                                                    Sipariş Tarihi
+                                                </th>
+                                                <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33; font-weight: normal; line-height: 1; vertical-align: top; padding: 0 0 7px;"
+                                                    align="right">
+                                                    Sipariş Durumu
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td height="1" style="background: #bebebe;" colspan="4"></td>
+                                            </tr>
+                                            <tr>
+                                                <td height="10" colspan="4"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #ff0000; line-height: 18px; vertical-align: top; padding: 10px 0;" class="article">
+                                                        @Model.SiparisNo
+                                                </td>
+                                                <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 18px; vertical-align: top; padding: 10px 0;">
+                                                           @Model.Fiyat
+                                                </td>
+                                                <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 18px; vertical-align: top; padding: 10px 0;" align="center">
+                                                        @Model.SiparisTarihi
+                                                </td>
+                                                <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33; line-height: 18px; vertical-align: top; padding: 10px 0;" align="right">
+                                                        @Model.SiparisDurumu
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- /Order Details -->
+    <!-- Total -->
+
+    <!-- /Total -->
+    <!-- Information -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+        <tbody>
+            <tr>
+                <td>
+                    <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable"
+                           bgcolor="#ffffff">
+                        <tbody>
+                            <tr>
+                            <tr class="hiddenMobile">
+                                <td height="60"></td>
+                            </tr>
+                            <tr class="visibleMobile">
+                                <td height="40"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="480" border="0" cellpadding="0" cellspacing="0" align="center"
+                                           class="fullPadding">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table width="220" border="0" cellpadding="0" cellspacing="0"
+                                                           align="left" class="col">
+                                                        <tbody>
+                                                            <tr class="hiddenMobile">
+                                                                <td height="35"></td>
+                                                            </tr>
+                                                            <tr class="visibleMobile">
+                                                                <td height="20"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-size: 11px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 1; vertical-align: top; ">
+                                                                    <strong>SHIPPING INFORMATION</strong>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="100%" height="10"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
+                                                                    Sup Inc<br> Another Place, Somewhere<br> New York
+                                                                    NY<br> 4468, United States<br> T: 202-555-0171
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+
+                                                    <table width="220" border="0" cellpadding="0" cellspacing="0"
+                                                           align="right" class="col">
+                                                        <tbody>
+                                                            <tr class="hiddenMobile">
+                                                                <td height="35"></td>
+                                                            </tr>
+                                                            <tr class="visibleMobile">
+                                                                <td height="20"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-size: 11px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 1; vertical-align: top; ">
+                                                                    <strong>SHIPPING METHOD</strong>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="100%" height="10"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
+                                                                    UPS: U.S. Shipping Services
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr class="hiddenMobile">
+                                <td height="60"></td>
+                            </tr>
+                            <tr class="visibleMobile">
+                                <td height="30"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- /Information -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
+
+        <tr>
+            <td>
+                <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable"
+                       bgcolor="#ffffff" style="border-radius: 0 0 10px 10px;">
+                    <tr>
+                        <td>
+                            <table width="480" border="0" cellpadding="0" cellspacing="0" align="center"
+                                   class="fullPadding">
+                                <tbody>
+                                    <tr>
+                                        <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: left;">
+                                            Have a nice day.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr class="spacer">
+                        <td height="50"></td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="20"></td>
+        </tr>
+
+    </table>
+
+
+    <button id="downloadPDF" style="margin: 20px; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">PDF Olarak İndir</button>
+
+    <!-- JavaScript kodu -->
+    <script>
+        document.getElementById('downloadPDF').addEventListener('click', function () {
+            // Sayfanın tamamının ekran görüntüsünü alın
+            var element = document.body;
+
+            // PDF ayarlarını yapılandırın
+            var opt = {
+                margin: 1,
+                filename: 'sayfa.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // PDF olarak indirme işlemini başlatın
+            html2pdf().from(element).set(opt).save();
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

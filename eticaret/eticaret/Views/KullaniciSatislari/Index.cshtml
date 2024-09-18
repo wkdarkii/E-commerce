@@ -1,0 +1,361 @@
+﻿@model IEnumerable<eticaret.Models.Seller>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürünler</title>
+    <link rel="stylesheet" href="~/Kullanici_Satislari/KS_Arayuz.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    
+<style>
+        /* Modal arka planı */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Daha koyu yarı şeffaf arka plan */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; /* Diğer içeriklerin üzerinde */
+        }
+
+        /* Modal içeriği */
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden; /* İçeriğin taşmasını önler */
+        }
+
+        /* Modal kapatma butonu */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+            .close:hover {
+                color: #e74c3c; /* Renk değişimi efekti */
+            }
+
+        /* Ürün kartı */
+        .product-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 15px;
+            margin: 0;
+            text-align: center;
+            background: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Modal içindeki resim */
+        .modal-content img {
+            max-width: 100%; /* Resmi modalın genişliğine göre sınırlar */
+            max-height: 400px; /* Resmin yüksekliğini sınırlar */
+            object-fit: contain; /* Resmin kutu içinde uygun şekilde görünmesini sağlar */
+            border-radius: 8px;
+            margin-bottom: 15px; /* Resim ile diğer içerikler arasında boşluk bırakır */
+        }
+
+        /* Ürün adı */
+        .product-card h3 {
+            margin: 15px 0 10px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        /* Ürün fiyatı */
+        .product-card .price {
+            font-size: 1.2em;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        /* Ürün açıklaması */
+        .product-card .description {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Buton stili */
+        .product-card .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background-color: #3498db; /* Mavi arka plan rengi */
+            color: #fff; /* Beyaz metin rengi */
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase; /* Metni büyük harf yapar */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent; /* Border ve arka plan arasında geçiş sağlar */
+            cursor: pointer; /* Tıklanabilir görünüm */
+        }
+
+            .product-card .btn:hover {
+                background-color: #2980b9; /* Hover sırasında arka plan rengini koyulaştırır */
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Hover sırasında gölge efekti ekler */
+                transform: translateY(-2px); /* Hover sırasında butonu hafif yukarı kaydırır */
+            }
+
+            .product-card .btn:active {
+                background-color: #1f5f8d; /* Butona tıklandığında arka plan rengini değiştirir */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Butona tıklandığında gölgeyi azaltır */
+                transform: translateY(0); /* Butonu eski konumuna geri getirir */
+            }
+
+
+        /* Modal içindeki ürün adı */
+        .modal-content h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Modal içindeki ürün açıklaması */
+        .modal-content .description {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Modal içindeki fiyat */
+        .modal-content .price {
+            font-size: 1.4em;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        /* Modal içindeki "Detayları Göster" butonunu gizle */
+        .modal .show-details-btn {
+            display: none;
+        }
+
+        /* Modal içindeki satın alma butonu */
+        .modal-content .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background-color: #3498db; /* Mavi arka plan rengi */
+            color: #fff; /* Beyaz metin rengi */
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-transform: uppercase; /* Metni büyük harf yapar */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent; /* Border ve arka plan arasında geçiş sağlar */
+            cursor: pointer; /* Tıklanabilir görünüm */
+            text-align: center;
+        }
+
+            .modal-content .btn:hover {
+                background-color: #2980b9; /* Hover sırasında arka plan rengini koyulaştırır */
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Hover sırasında gölge efekti ekler */
+                transform: translateY(-2px); /* Hover sırasında butonu hafif yukarı kaydırır */
+            }
+
+            .modal-content .btn:active {
+                background-color: #1f5f8d; /* Butona tıklandığında arka plan rengini değiştirir */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Butona tıklandığında gölgeyi azaltır */
+                transform: translateY(0); /* Butonu eski konumuna geri getirir */
+            }
+        /* Modal açma butonu */
+        .open-modal {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background-color: #3498db; /* Mavi arka plan rengi */
+            color: #fff; /* Beyaz metin rengi */
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase; /* Metni büyük harf yapar */
+            border: 2px solid transparent; /* Border ve arka plan arasında geçiş sağlar */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer; /* Tıklanabilir görünüm */
+            text-align: center;
+            margin: 10px 0; /* Üst ve alt margin ekledik */
+        }
+
+            /* Butonun üzerine gelindiğinde görünüm */
+            .open-modal:hover {
+                background-color: #2980b9; /* Hover sırasında arka plan rengini koyulaştırır */
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Hover sırasında gölge efekti ekler */
+                transform: translateY(-2px); /* Hover sırasında butonu hafif yukarı kaydırır */
+            }
+
+            /* Butona tıklandığında görünüm */
+            .open-modal:active {
+                background-color: #1f5f8d; /* Tıklama sırasında arka plan rengini değiştirir */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tıklama sırasında gölgeyi azaltır */
+                transform: translateY(0); /* Butonu eski konumuna geri getirir */
+            }
+
+
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <h1>Kullanıcı Ürünleri</h1>
+                <ul>
+                    <li><a href="/Main/Index">Ana Sayfa</a></li>
+                    <li><a href="#">Ürünler</a></li>
+                    <li><a href="#">Hakkımızda</a></li>
+                    <li><a href="#">İletişim</a></li>
+                </ul>
+            </div>
+        </nav> 
+    </header>
+
+    <main>
+        <div class="container">
+            <aside class="filter-section">
+                <h2>Filtrele</h2>
+                <form id="filter-form">
+                    <label for="category">Kategori:</label>
+                    <select id="category" name="category">
+                        <option value="all">Tümü</option>
+                        <option value="fashion">Moda</option>
+                        <option value="electronics">Elektronik</option>
+                        <option value="sporting">Spor</option>
+                    </select>
+
+                    <label for="price-range">Fiyat Aralığı:</label>
+                    <input type="range" id="price-range" name="price-range" min="0" max="1000" step="10">
+
+                    <button type="submit">Filtrele</button>
+                </form>
+            </aside>
+
+            <section class="products-section">
+                <div class="product-grid">
+                    <!-- Ürün Kartı Başlangıcı -->
+                    @foreach (var product in Model)
+                    {
+                        <div class="product-card">
+                            <img src="~/images/@product.UrunResim" alt="@product.UrunAdi" class="product-image" data-id="@product.Id">
+                            <h3>@product.UrunAdi</h3>
+                            <p class="price">₺@product.UrunFiyat</p>
+                            <p class="description">@product.UrunAciklama</p>
+                            <a href="#" class="btn" data-id="@product.Id">Satın Al</a>
+
+                            <button class="open-modal" data-id="@product.Id">Detayları Gör</button>
+                        </div>
+                    }
+
+                 
+
+                    <!-- Ürün Kartı Bitişi -->
+                    <!-- Daha fazla ürün kartı buraya eklenecek -->
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+   
+
+
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tüm Hakları Saklıdır.</p>
+            <ul>
+                <li><a href="#">Gizlilik Politikası</a></li>
+                <li><a href="#">Kullanım Şartları</a></li>
+            </ul>
+        </div>
+    </footer>
+
+
+    <!-- Modal HTML -->
+    <div id="productModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalBody">
+                <!-- Modal içeriği burada yüklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <span id="selectedProductId" style="display:none;">@ViewBag.SelectedProductId</span>
+    <script>
+        $(document).ready(function () {
+            // Modalı açma fonksiyonu
+            function openModal(productId) {
+                // Seçilen ürünün detaylarını modalBody'e yükle
+                var product = $('.product-card').filter(function () {
+                    return $(this).find('.product-image').data('id') == productId;
+                }).clone();
+
+                $('#modalBody').html(product.html());
+                $('#productModal').fadeIn();  // Modalı göster
+            }
+
+            // Modalı kapatma
+            $('.close').on('click', function () {
+                $('#productModal').fadeOut();  // Modalı gizle
+            });
+
+            // Sayfa yüklendiğinde ViewBag.SelectedProductId'yi kontrol et
+            var selectedProductId = $('#selectedProductId').text();
+            if (selectedProductId && selectedProductId !== 'null' && selectedProductId !== '') {
+                openModal(selectedProductId);
+            }
+
+            // Modal açma butonlarına tıklama işlevi ekleyin
+            $('.open-modal').on('click', function (e) {
+                e.preventDefault();
+                var productId = $(this).data('id');
+                openModal(productId);
+            });
+        });
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const buyButtons = document.querySelectorAll('.btn[data-id]');
+
+            buyButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault(); // Varsayılan link davranışını engelle
+
+                    const productId = button.getAttribute('data-id');
+
+                    // Ürün ID'si ile ilgili sayfaya yönlendirme
+                    window.location.href = `/KullaniciProductSatis/ProductDetails/${productId}`;
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
+

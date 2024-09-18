@@ -1,0 +1,62 @@
+﻿/* Uyarı kutusu genel stil */
+.warning-box {
+    width: 300px;
+    height: 200px;
+    background-color: #ffefef; /* Hafif kırmızımsı arka plan */
+    border: 2px solid #f5c6cb; /* Sınır renkleriyle belirginleştirme */
+    color: #721c24; /* Uyarı metin rengi */
+    border-radius: 10px; /* Hafif yuvarlatılmış köşeler */
+    padding: 20px;
+    position: relative;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    font-family: Arial, sans-serif;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Kapama butonu stili */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #721c24;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+    /* Kapama butonu hover stili */
+    .close-btn:hover {
+        color: #f5c6cb;
+    }
+
+/* Uyarı mesajı metni stili */
+.warning-message {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 50px;
+    color: #721c24;
+}
+
+/* Fade-in animasyonu */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Mobil uyumluluk */
+@media (max-width: 600px) {
+    .warning-box {
+        width: 90%;
+        height: auto;
+    }
+}

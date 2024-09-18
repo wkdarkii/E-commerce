@@ -1,0 +1,168 @@
+﻿@model eticaret.Models.Product
+
+@{
+    ViewData["Title"] = "Product_Edit";
+    Layout = "~/Areas/Admin/Views/Layout/PanelLayout.cshtml";
+}
+<style>
+    .dark-form {
+        background-color: #1e1e1e;
+        padding: 20px;
+        border-radius: 10px;
+        color: #f1f1f1;
+    }
+
+        .dark-form .form-label {
+            color: #c5c5c5;
+        }
+
+        .dark-form .form-control {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #f1f1f1;
+        }
+
+            .dark-form .form-control.dark-input {
+                background-color: #222;
+                border-color: #444;
+                color: #fff;
+            }
+
+        .dark-form .btn.dark-btn {
+            background-color: #444;
+            border: none;
+            color: #fff;
+        }
+
+            .dark-form .btn.dark-btn:hover {
+                background-color: #555;
+                color: #f1f1f1;
+            }
+
+    .img-preview {
+        border: 2px solid #444;
+        margin-top: 10px;
+    }
+
+</style>
+
+
+<form asp-action="Product_Edit" asp-controller="ProductEdit" asp-area="Admin" method="post" enctype="multipart/form-data" class="dark-form">
+    <input type="hidden" name="id" value="@Model.id" />
+
+    <div class="form-group">
+        <label for="name" class="form-label">Ürün Adı</label>
+        <input type="text" class="form-control dark-input" id="name" name="name" value="@Model.name" required />
+    </div>
+
+@*     <div class="form-group">
+        <label for="price" class="form-label">Fiyat</label>
+        <input type="number" class="form-control dark-input" id="price" name="price" value="@Model.price ?? 0" required />
+    </div> *@
+    <div class="form-group">
+        <label for="price" class="form-label">Fiyat</label>
+        <input type="text" class="form-control dark-input" id="price" name="price" value="@Model.price" required />
+    </div>
+
+
+    <div class="form-group">
+        <label for="description" class="form-label">Açıklama</label>
+        <textarea class="form-control dark-input" id="description" name="description" rows="3"
+                  placeholder="Açıklama yok">@Model.description</textarea>
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="img" class="form-label">Ürün Görseli</label>
+        <input type="file" class="form-control dark-input" id="img" name="FotoFile" />
+        @if (Model.img != null)
+        {
+            <img src="~/dasdasdsadasas/www.elathemes.com/themes/lager/assets/images/@Model.img" alt="@Model.name" width="100" class="mt-2 img-preview" />
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="discount" class="form-label">İndirim (%)</label>
+        <input type="number" class="form-control dark-input" id="discount" name="discount"
+               value="@(Model.discount.HasValue ? Model.discount.ToString() : "Boş")"
+               onfocus="if(this.value=='Boş') this.value='';"
+               onblur="if(this.value=='') this.value='Boş';" />
+    </div>
+
+    <div class="form-group">
+        <label for="label" class="form-label">Etiket</label>
+        <input type="text" class="form-control dark-input" id="label" name="label"
+               value="@Model.label"
+               placeholder="@(string.IsNullOrEmpty(Model.label) ? "Boş" : Model.label)"
+               onfocus="if(this.placeholder == 'Boş') this.placeholder = '';"
+               onblur="if(this.value == '' && this.placeholder == '') this.placeholder = 'Boş';" />
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="cinsiyet" class="form-label">Cinsiyet</label>
+        <select class="form-control dark-input" id="cinsiyet" name="cinsiyet">
+            <option value="" @(Model.cinsiyet == null ? "selected" : "")>Boş</option>
+            <option value="true" @(Model.cinsiyet == true ? "selected" : "")>Erkek</option>
+            <option value="false" @(Model.cinsiyet == false ? "selected" : "")>Kadın</option>
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <label for="cocuk" class="form-label">Çocuk Ürünü mü?</label>
+        <select class="form-control dark-input" id="cocuk" name="cocuk">
+            <option value="" @(Model.cocuk == null ? "selected" : "")>Boş</option>
+            <option value="true" @(Model.cocuk == true ? "selected" : "")>Evet</option>
+            <option value="false" @(Model.cocuk == false ? "selected" : "")>Hayır</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="alan_adi" class="form-label">Alan Adı</label>
+        <input type="text" class="form-control dark-input" id="alan_adi" name="alan_adi"
+               value="@(Model.alan_adi ?? "")"
+               placeholder="@(string.IsNullOrEmpty(Model.alan_adi) ? "Boş" : Model.alan_adi)"
+               onfocus="if(this.value === 'Boş') this.value = '';"
+               onblur="if(this.value === '') this.value = 'Boş';" />
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label for="category_id" class="form-label">Kategori</label>
+        <select class="form-control dark-input" id="category_id" name="category_id">
+            <option value="1" @(Model.category_id == 1 ? "selected" : "")>Electronics</option>
+            <option value="2" @(Model.category_id == 2 ? "selected" : "")>Fashion</option>
+            <option value="3" @(Model.category_id == 3 ? "selected" : "")>Sporting Goods</option>
+            <option value="4" @(Model.category_id == 4 ? "selected" : "")>Home & Garden</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary dark-btn">Güncelle</button>
+</form>
+
+
+<script>
+    document.querySelector('.btn-primary').addEventListener('click', function (event) {
+        event.preventDefault(); // Formun varsayılan gönderimini engelle
+
+        Swal.fire({
+            title: 'Güncelleme Onayı',
+            text: 'Bu değişiklikleri onaylıyor musunuz?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Güncelle',
+            cancelButtonText: 'Vazgeç',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Onaylandıysa formu gönder
+                document.querySelector('form').submit();
+            }
+        });
+    });
+</script>

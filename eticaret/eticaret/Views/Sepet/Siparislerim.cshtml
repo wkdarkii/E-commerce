@@ -1,0 +1,407 @@
+﻿@model IEnumerable<eticaret.Models.Siparis> 
+<!-- Modelin IEnumerable<Siparis> olduğunu varsayıyorum -->
+
+<!-- Döngü dışında Model'in belirli özelliklerine erişim -->
+@{
+   var kullaniciAdi = Model.FirstOrDefault()?.User.Kullanici_adi; // Kullanıcı adını alma
+    var kullaniciResim = Model.FirstOrDefault()?.User.Profil_Foto; // Kullanıcı adını alma
+}
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Siparişlerim";
+}
+
+<style>
+
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+
+    .header {
+        background-color: #ff6600;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .search-bar input {
+        width: 300px;
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+    }
+
+        .header-right div {
+            margin-left: 20px;
+        }
+
+    .user-icon {
+        background-color: #ddd;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: bold;
+    }
+
+    .main-content {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    .sidebar {
+        width: 200px;
+        background-color: white;
+        padding: 20px;
+    }
+
+    .user-info {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .user-initials {
+        background-color: #ddd;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .menu a {
+        display: block;
+        padding: 10px 0;
+        color: black;
+        text-decoration: none;
+        margin-bottom: 10px;
+    }
+
+        .menu a:hover {
+            color: #ff6600;
+        }
+
+    .orders-section {
+        flex: 1;
+        padding: 20px;
+        background-color: white;
+    }
+
+    .filter-bar {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .filter-bar input {
+            padding: 8px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .filter-bar button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background-color: white;
+            margin-right: 5px;
+            border-radius: 5px;
+        }
+
+            .filter-bar button:hover {
+                background-color: #ff6600;
+                color: white;
+            }
+
+    .orders-list {
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .order-item {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+        .order-item img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+    .order-details {
+        flex: 1;
+    }
+
+    .status {
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+    .completed {
+        color: green;
+    }
+
+    .cancelled {
+        color: red;
+    }
+
+    .date-price {
+          color:#555;
+    }
+
+    .pagination-controls-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination-button {
+        margin: 0 5px;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+        .pagination-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siparişlerim</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">SY Ticaret</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Ürün, kategori veya marka ara">
+        </div>
+        <div class="header-right">
+            <div class="location">Konum</div>
+            <div class="cart">Sepetim</div>
+            <div class="orders">Siparişlerim</div>
+            <div > <img class="user-icon" src="~/Kullanici_img/@kullaniciResim" /> </div>
+        </div>
+    
+    </header>
+
+    <div class="main-content">
+        <aside class="sidebar">
+            <div class="user-info">
+                <div><img class="user-initials" src="~/Kullanici_img/@kullaniciResim" /></div>
+                <div class="user-name">@kullaniciAdi</div>
+            </div>
+            <nav class="menu">
+                <a href="#">Siparişlerim</a>
+                <a href="#">Sana Özel Fırsatlar</a>
+                <a href="#">Hepsipay</a>
+                <a href="#">Soru ve Taleplerim</a>
+                <a href="#">Değerlendirmelerim</a>
+                <a href="#">Kuponlarım</a>
+                <a asp-controller="Kullanıcıarayüz" asp-action="Profili">Kullanıcı bilgilerim</a>
+            </nav>
+        </aside>
+
+        <section class="orders-section">
+            <h2>Siparişlerim</h2>
+            <div class="filter-bar">
+                <input type="text" placeholder="Siparişlerimde ara">
+                <button>Tümü</button>
+                <button>Devam edenler</button>
+                <button>İptaller</button>
+                <button>İadeler</button>
+                <button>Teslim edilemeyenler</button>
+              
+            </div>
+            @{
+                // Siparişleri güncel tarihe en yakın olandan başlayarak sıralayın
+                var sortedOrders = Model.OrderByDescending(order => order.SiparisTarihi);
+            }
+
+            <div class="orders-list">
+                @foreach (var order in sortedOrders)
+                {
+                    <div class="order-item" style="display: flex; align-items: center; justify-content: flex-start; border: 1px solid #ddd; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                        <img src="~/dasdasdsadasas/www.elathemes.com/themes/lager/assets/images/@order.Product.img" alt="Ürün" style="width: 100px; height: 100px; margin-right: 20px;" />
+                        <div class="order-details" style="flex-grow: 1;">
+                            <div style="font-weight: bold; margin-bottom: 10px;">Sipariş no: @order.Id</div>
+                            <div class="status completed" style="color: green; margin-bottom: 10px;">@order.SiparisDurumu</div>
+                            <div class="date-price">@order.SiparisTarihi.ToString("dd MMMM yyyy") - @order.Product.price.ToString("N2") $</div>
+                        </div>
+
+                        <!-- Raporla Butonu -->
+                        <form action="/Checkout/Rapor" method="post" style="margin-left: auto;">
+                            <input type="hidden" name="SiparisNo" value="@order.Id" />
+                            <input type="hidden" name="SiparisDurumu" value="@order.SiparisDurumu" />
+                            <input type="hidden" name="SiparisTarihi" value="@order.SiparisTarihi" />
+                            <input type="hidden" name="Fiyat" value="@order.Product.price" />
+                            <button type="submit" class="btn btn-danger">Raporla</button>
+                        </form>
+                    </div>
+                }
+
+
+
+             
+            </div>
+         
+            <div class="pagination-controls-container">
+                <div class="pagination" id="paginationControls"></div>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (TempData["SiparisOnaylandi"] != null)
+    {
+        <script>
+            Swal.fire({
+                title: 'Sipariş Onaylandı!',
+                text: 'Siparişiniz başarıyla onaylandı.',
+                icon: 'success',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var itemsPerPage = 6; // Sayfa başına gösterilecek ürün sayısı
+            var orderItems = document.querySelectorAll('.order-item'); // Tüm ürünleri seç
+            var totalItems = orderItems.length; // Toplam ürün sayısı
+            var totalPages = Math.ceil(totalItems / itemsPerPage); // Toplam sayfa sayısı
+
+            // Sayfalama kontrollerini oluştur
+            var paginationControls = document.getElementById('paginationControls');
+            for (var i = 1; i <= totalPages; i++) {
+                var pageButton = document.createElement('button');
+                pageButton.innerText = i;
+                pageButton.setAttribute('data-page', i);
+                pageButton.classList.add('pagination-button');
+                pageButton.addEventListener('click', function (e) {
+                    var selectedPage = parseInt(e.target.getAttribute('data-page'));
+                    showPage(selectedPage);
+                });
+                paginationControls.appendChild(pageButton);
+            }
+
+            // İlk sayfayı göster
+            showPage(1);
+
+            // Belirli sayfayı gösteren fonksiyon
+            function showPage(page) {
+                var start = (page - 1) * itemsPerPage;
+                var end = page * itemsPerPage;
+
+                orderItems.forEach(function (item, index) {
+                    if (index >= start && index < end) {
+                        item.style.display = 'flex'; // Seçilen sayfadaki ürünler gösterilecek
+                    } else {
+                        item.style.display = 'none'; // Diğer ürünler gizlenecek
+                    }
+                });
+            }
+        });
+    </script>
+
+
+</body>
+</html>
+
+
+
+@* @model IEnumerable<Siparis>
+@{
+    Layout = null;
+    ViewData["Title"] = "Siparişlerim";
+}
+
+<h2>Siparişlerim</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ürün</th>
+            <th>Sipariş Tarihi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var siparis in Model)
+        {
+            <tr>
+                <td>@siparis.Product.name</td>
+                <td>@siparis.SiparisTarihi.ToString("dd/MM/yyyy HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+ <div class="order-item">
+                    <img src="https://via.placeholder.com/100" alt="Ürün">
+                    <div class="order-details">
+                        <div>Sipariş no: 198 004 264</div>
+                        <div class="status completed">Sipariş tamamlandı</div>
+                        <div class="date-price">18 Nisan 2024 - 410,00 TL</div>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <img src="https://via.placeholder.com/100" alt="Ürün">
+                    <div class="order-details">
+                        <div>Sipariş no: 822 269 898</div>
+                        <div class="status completed">Sipariş tamamlandı</div>
+                        <div class="date-price">25 Mart 2024 - 419,90 TL</div>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <img src="https://via.placeholder.com/100" alt="Ürün">
+                    <div class="order-details">
+                        <div>Sipariş no: 775 176 927</div>
+                        <div class="status cancelled">İptal edildi</div>
+                        <div class="date-price">01 Kasım 2021 - 59,99 TL</div>
+                    </div>
+                </div>
+
+
+
+
+*@

@@ -1,0 +1,116 @@
+﻿@model Seller
+@{
+    ViewData["Title"] = "İlan Düzenle";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/Satici_Ilanlar/Ilan_düzenle/D_Ilan.css"> <!-- Your custom styles -->
+
+    <style>
+        .image-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .old-image, .new-image-preview {
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .old-image {
+            width: 250px;
+            height: auto;
+        }
+
+        .new-image-preview {
+            display: none; /* Başlangıçta gizli */
+            width: 250px; /* Resmin genişliğini ayarlayın */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="form-title">İlan Düzenle</h2>
+
+            <form asp-action="Duzenle" method="post" class="edit-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="UrunAdi">Ürün Adı</label>
+                    <input type="text" class="form-control" id="UrunAdi" name="UrunAdi" value="@Model.UrunAdi" />
+                </div>
+                <div class="form-group">
+                    <label for="UrunFiyat">Ürün Fiyatı</label>
+                    <input type="number" class="form-control" id="UrunFiyat" name="UrunFiyat" value="@Model.UrunFiyat" />
+                </div>
+                <div class="form-group">
+                    <label for="UrunResim">Ürün Resmi (Eski Resim)</label>
+                    <div class="image-container">
+                        <img src="~/images/@Model.UrunResim"  alt="Eski Resim" class="old-image" />
+                        <input type="file" class="form-control" id="NewImage" name="NewImage" accept="image/*" />
+                        <img id="NewImagePreview" class="new-image-preview" style="width:150px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="UrunAciklama">Ürün Açıklama</label>
+                    <input type="text" class="form-control" id="UrunAciklama" name="UrunAciklama" value="@Model.UrunAciklama" />
+                </div>
+                <div class="form-group">
+                    <label for="UrunKategori">Ürün Kategori</label>
+                    <input type="text" class="form-control" id="UrunKategori" name="UrunKategori" value="@Model.UrunKategori" />
+                </div>
+                <div class="form-group">
+                    <label for="Sehir">Şehir</label>
+                    <input type="text" class="form-control" id="Sehir" name="Sehir" value="@Model.Sehir" />
+                </div>
+                <div class="form-group">
+                    <label for="Ilce">İlçe</label>
+                    <input type="text" class="form-control" id="Ilce" name="Ilce" value="@Model.Ilce" />
+                </div>
+                <div class="form-group">
+                    <label for="UrunDurumu">Ürün Durumu</label>
+                    <input type="text" class="form-control" id="UrunDurumu" name="UrunDurumu" value="@Model.UrunDurumu" />
+                </div>
+                <div class="form-group">
+                    <label for="Marka">Ürün Marka</label>
+                    <input type="text" class="form-control" id="Marka" name="Marka" value="@Model.Marka" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('NewImage').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('NewImagePreview');
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block'; // Görünür hale getir
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none'; // Gizle
+            }
+        });
+    </script>
+</body>
+</html>

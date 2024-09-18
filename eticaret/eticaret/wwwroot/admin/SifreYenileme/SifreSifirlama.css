@@ -1,0 +1,171 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: none;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="date"],
+select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #e65c00;
+    }
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.message {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Yükleme ekranı */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+    .loader div {
+        border: 8px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 8px solid #ff6600;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+/* Genel Stil ve Konteyner */
+#info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.1); /* Hafif arka plan rengi */
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+
+/* Bilgi Kutusu */
+.info-box {
+    padding-left:500px;
+    background-color: #ff6f00; /* Turuncu renk */
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Başlık */
+.info-title {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Mesaj Metni */
+.info-message {
+    margin: 20px 0;
+    font-size: 1.2em;
+    color: #ffffff;
+}
+
+/* Buton */
+.info-button {
+    background-color: #ffffff;
+    color: #ff6f00;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+    .info-button:hover {
+        background-color: #ffccbc;
+        color: #ff6f00;
+        transform: scale(1.05);
+    }
+
+    .info-button:active {
+        transform: scale(0.98);
+    }

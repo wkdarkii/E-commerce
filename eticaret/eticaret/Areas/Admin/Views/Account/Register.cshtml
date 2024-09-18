@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>RegistrationForm_v10 by Colorlib</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Yükleme animasyonu CSS -->
+    <link rel="stylesheet" href="~/admin/css/Register.css">
+    <!-- LINEARICONS -->
+    <link rel="stylesheet" href="~/register/fonts/linearicons/style.css">
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="~/register/css/style.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+    <!-- Yükleme ekranı -->
+    <div class="loader-wrapper" style="display: none;">
+        <img src="~/admin/css/Ball@1x-1.0s-200px-200px.gif" alt="Loading...">
+    </div>
+
+    <div class="wrapper">
+        <div class="inner">
+            <img src="~/register/images/image-1.png" alt="" class="image-1">
+            <form action="/Admin/Registered/Register" method="post">
+                <h3>Kayıt ol</h3>
+                <div class="form-holder">
+                    <span class="lnr lnr-user"></span>
+                    <input type="text" class="form-control" placeholder="Kullanıcı Adı" name="Kullanici_adi">
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-phone-handset"></span>
+                    <input type="text" class="form-control" placeholder="Telefon Numarası" name="PhoneNumber">
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-envelope"></span>
+                    <input type="email" class="form-control" placeholder="EMail" name="Email">
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-lock"></span>
+                    <input type="password" class="form-control" placeholder="Sifre" name="Sifre">
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-lock"></span>
+                    <input type="password" class="form-control" placeholder="Sifre Tekrar" name="ConfirmPassword">
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-user"></span>
+                    <select class="form-control" name="Cinsiyet">
+                        <option value="true">Erkek</option>
+                        <option value="false">Kız</option>
+                    </select>
+                </div>
+                <div class="form-holder">
+                    <label for="D_Tarihi" class="form-label">Date of Birth</label>
+                    <input type="date" id="D_Tarihi" class="form-control" name="D_Tarihi">
+                </div>
+
+                <button type="submit">
+                    <span>Register</span>
+                </button>
+
+                <a href="/Admin/Account/Login">
+                    <span>Zaten Hesabınız Varmı?</span>
+                </a>
+            </form>
+            <img src="~/register/images/image-2.png" alt="" class="image-2">
+        </div>
+    </div>
+
+    <script src="~/register/js/jquery-3.3.1.min.js"></script>
+    <script src="~/register/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Yükleme animasyonunu göster
+            var loaderWrapper = document.querySelector('.loader-wrapper');
+            loaderWrapper.style.display = 'flex';
+
+            // Yükleme animasyonunu 1 saniye göster
+            setTimeout(function () {
+                loaderWrapper.style.display = 'none';
+
+                // Kayıt hatası olup olmadığını kontrol et
+                var registrationError = '@TempData["RegistrationError"]';
+                if (registrationError) {
+                    // SweetAlert2 ile hata mesajını göster
+                    Swal.fire({
+                        title: 'Error!',
+                        text: "Kullanıcı adı veya Sifre daha önce kullanılmış!!",
+                        icon: 'error',
+                        background: '#f8c291',
+                        timer: 2000, 
+                        showConfirmButton: false
+                    });
+                }
+            }, 1000); // 1 saniye
+        });
+    </script>
+</body>
+</html>

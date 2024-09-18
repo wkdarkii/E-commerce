@@ -1,0 +1,262 @@
+﻿@model eticaret.Models.Product
+@{
+
+    Layout = "~/Views/Layout/Layout.cshtml";
+    ViewData["Title"] = "Product overview | Lager - eCommerce HTML Template";
+}
+
+
+<style>
+    .review-section {
+        text-align: center;
+        margin: 50px 0;
+    }
+
+    .review-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .review-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+        .review-link:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+
+
+</style>
+
+
+
+
+
+
+    <div class="page-loader"></div>
+
+    <div class="wrapper">
+
+        <div class="inc:_header.html"></div>
+
+        <!-- ========================  Main header ======================== -->
+
+        <section class="main-header text-center" style="background-image:url(assets/images/gallery-2.jpg)">
+            <header>
+                <div class="container">
+                    <h1 class="h2 title">Product category</h1>
+                    <ol class="breadcrumb breadcrumb-inverted">
+                        <li>
+                            <a href="index.html"><span class="icon icon-home"></span></a>
+                        </li>
+                        <li>
+                            <a href="category.html">Product Category</a>
+                        </li>
+                        <li>
+                            <a href="products-grid.html">Product Sub-category</a>
+                        </li>
+                        <li>
+                            <a class="active" href="product.html">Product overview</a>
+                        </li>
+                    </ol>
+                </div>
+            </header>
+        </section>
+
+        <!-- ========================  Product ======================== -->
+
+    <section class="product">
+        <div class="main">
+            <div class="container">
+                <div class="row product-flex">
+
+                    <!-- product flex is used only for mobile order -->
+                    <!-- on mobile 'product-flex-info' goes below gallery 'product-flex-gallery' -->
+
+                    <div class="col-md-4 col-sm-12 product-flex-info">
+                        <div class="clearfix">
+
+                            <!-- === product-title === -->
+
+                            <h1 class="title" data-title="@Model.name">
+                                @Model.name
+                                <small>Free shipping</small>
+                            </h1>
+
+                            <div class="clearfix">
+
+                                <!-- === price wrapper === -->
+
+                                <div class="price">
+                                    <span class="h3">
+                                        $ @Model.price
+                                    </span>
+                                </div>
+                                <hr />
+
+                                <!-- === info-box === -->
+
+                                <div class="info-box">
+                                    <span><strong>Maifacturer</strong></span>
+                                    <span>Brand name</span>
+                                </div>
+
+                                <!-- === info-box === -->
+
+                                <div class="info-box">
+                                    <span><strong>Materials</strong></span>
+                                    <span>Wood, Leather, Acrylic</span>
+                                </div>
+
+                                <!-- === info-box === -->
+
+                                <div class="info-box">
+                                    <span><strong>Availability</strong></span>
+                                    <span><i class="fa fa-check-square-o"></i> In stock</span>
+                                    <span class="hidden"><i class="fa fa-truck"></i> Out of stock</span>
+                                </div>
+
+                                <hr />
+
+                                <div class="info-box info-box-addto added">
+                                    <span>
+                                        <i class="add"><i class="fa fa-heart-o"></i> Add to favorites</i>
+                                        <i class="added"><i class="fa fa-heart"></i> Remove from favorites</i>
+                                    </span>
+                                </div>
+
+                                <div class="info-box info-box-addto">
+                                    <span>
+                                        <i class="add"><i class="fa fa-eye-slash"></i> Add to Watch list</i>
+                                        <i class="added"><i class="fa fa-eye"></i> Remove from Watch list</i>
+                                    </span>
+                                </div>
+
+                                <div class="info-box info-box-addto">
+                                    <span>
+                                        <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
+                                        <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
+                                    </span>
+                                </div>
+
+                                <hr />
+
+                                <!-- === info-box === -->
+
+                                <div class="info-box">
+                                    <span><strong>Available Colors</strong></span>
+                                    <div class="product-colors clearfix">
+                                        <span class="color-btn color-btn-red"></span>
+                                        <span class="color-btn color-btn-blue checked"></span>
+                                        <span class="color-btn color-btn-green"></span>
+                                        <span class="color-btn color-btn-gray"></span>
+                                        <span class="color-btn color-btn-biege"></span>
+                                    </div>
+                                </div>
+
+                                <!-- === info-box === -->
+
+                                <div class="info-box">
+                                    <span><strong>Choose size</strong></span>
+                                    <div class="product-colors clearfix">
+                                        <span class="color-btn color-btn-biege">
+                                            <span class="product-size" data-text="">S</span>
+                                        </span>
+                                        <span class="color-btn color-btn-biege checked">M</span>
+                                        <span class="color-btn color-btn-biege">XL</span>
+                                        <span class="color-btn color-btn-biege">XXL</span>
+                                    </div>
+                                </div>
+
+                            </div> <!--/clearfix-->
+                        </div> <!--/product-info-wrapper-->
+                    </div> <!--/col-md-4-->
+                    <!-- === product item gallery === -->
+
+                     <div class="col-md-8 col-sm-12 product-flex-gallery"> 
+
+                        <!-- === add to cart === -->
+
+                    @*     <button type="submit" class="btn btn-buy" data-text="Buy"></button> *@
+
+
+
+                      @*   <form asp-action="Purchase" asp-controller="SatınAlınanlar" method="post">
+                            <input type="hidden" name="productId" value="@Model.id" />
+                            <button type="submit" class="btn btn-buy" data-text="Buy"></button>
+                        </form> *@
+
+                        <form method="post" asp-controller="Sepet" asp-action="SepeteEkle">
+                            <input type="hidden" name="productId" value="@Model.id" />
+                            <button type="submit" class="btn btn-buy" data-text="Sepete Ekle"></button>
+                        </form>
+
+
+                   @*      <button type="submit" class="btn btn-buy" data-text="Sepete_ekle"></button> *@
+
+
+                        <!-- === product gallery === -->
+
+                        <div class="owl-product-gallery open-popup-gallery">
+                            <a href="~/dasdasdsadasas/www.elathemes.com/themes/lager/assets/images/@Model.img"><img src="~/dasdasdsadasas/www.elathemes.com/themes/lager/assets/images/@Model.img" alt="@Model.name" height="500" /></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+            <!-- === product-info === -->
+
+        </section>
+
+
+
+    <div class="review-section">
+
+        <h3 class="review-title">Ürün Yorumları</h3>
+
+        <!-- Product ID'yi gizli bir input alanında saklıyoruz -->
+        <input type="hidden" id="productId" value="@Model.id" />
+
+        <!-- Yorumları görüntüle butonu -->
+        <a href="#" class="review-link" id="productReviewLink">Yorumları Görüntüle</a>
+
+    </div>
+
+   
+
+
+
+
+
+
+        <div class="inc:_footer.html"></div>
+
+    </div>
+
+<script>
+    // JavaScript ile ürün ID'sini yakalama ve URL'ye ekleme
+    document.getElementById("productReviewLink").addEventListener("click", function(event) {
+        event.preventDefault(); // Varsayılan davranışı engelle (sayfa yeniden yüklenmesin)
+
+        // hidden input'taki productId değerini yakalıyoruz
+        var productId = document.getElementById("productId").value;
+
+        // Ürün ID'yi URL'ye ekliyoruz
+        var url = '/urunyorumlari/Index?productId=' + productId;
+
+            // Yeni URL'ye yönlendiriyoruz
+            window.location.href = url;
+        });
+</script>

@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Design by foolishdeveloper.com -->
+    <title>Glassmorphism Login Form Tutorial in HTML CSS</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link href="~/admin/css/login.css" rel="stylesheet" />
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+
+
+    <style>
+        /* SweetAlert stilini daha güzel hale getirmek için özel CSS */
+        .colored-popup {
+            border-radius: 10px;
+            border: 2px solid #4caf50;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .swal-title {
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .swal-content {
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+
+</head>
+<body>
+
+    @if (ViewBag.GirisSayisiHatasi != null && ViewBag.GirisSayisiHatasi)
+    {
+        <script>
+            Giris_Sayisi_Hatasi();
+        </script>
+    }
+
+    @if (TempData["Son_Giris_Hakki"] != null && (bool)TempData["Son_Giris_Hakki"])
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Son_Giris_Hakki();
+            });
+        </script>
+    }
+    
+  
+
+
+
+
+
+
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <!-- Form action is directed to the Login action in AccountController -->
+    <form action="/admin/Account/Login" method="post">
+
+        <h3>Login Here</h3>
+
+        <label for="username">Username</label>
+        <input type="text" placeholder="Email or Phone" id="username" name="kullaniciAdi">
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" name="sifre">
+
+        <button type="submit">Log In</button>
+        <div class="social">
+            <a href="/admin/SifreYenileme/SifremiUnuttum" class="fb" style="padding-right:5px;">
+                <i class="fas fa-lock"></i> Şifremi Unuttum!
+            </a>
+
+
+
+            <a href="/admin/Account/Register" class="fb"><i class="fas fa-user-plus"></i> Kayıt Ol</a>
+        </div>
+    </form>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // JavaScript'e geçirme
+            var success = '@ViewBag.Success';
+
+            // Eğer ViewBag.Success true ise SweetAlert'i göster
+            if (success === 'True') {
+                Swal.fire({
+                    title: 'Kayıt Başarılı',
+                    text: 'Kaydınız Başarıyla oluşturuldu. Lütfen Giriş Yapın.',
+                    icon: 'success',
+                    timer: 2000, // 2 saniye
+                    showConfirmButton: false
+                });
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+        
+            var girisReddedildi = @Html.Raw(Json.Serialize(ViewBag.GirisReddedildi));
+
+           
+            if (girisReddedildi) {
+                Swal.fire({
+                    title: 'Giriş Başarısız',
+                    text: 'Geçersiz kullanıcı adı veya şifre.',
+                    icon: 'error',
+                    timer: 2000, 
+                    showConfirmButton: false
+                });
+            }
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // TempData'dan veri al ve kontrol et
+            var showAlert = @((TempData["MainLoginOnay"] != null ? (bool)TempData["MainLoginOnay"] : false).ToString().ToLower());
+
+            if (showAlert) {
+                // SweetAlert göster
+                Swal.fire({
+                    title: 'Giriş Başarılı!',
+                    text: 'Yönlendiriliyorsunuz...',
+                    icon: 'success',
+                    timer: 4500,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        // Yüklenme animasyonu ekle
+                        Swal.showLoading();
+                    },
+                    customClass: {
+                        popup: 'colored-popup',
+                        title: 'swal-title',
+                        content: 'swal-content',
+                    },
+                    background: '#fefefe',
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        left top
+                        no-repeat
+                    `,
+                }).then(() => {
+                    // 1.5 saniye sonra ana sayfaya yönlendir
+                    window.location.href = '@Url.Action("Index", "Main", new { area = "" })';
+                });
+
+                // TempData'dan JSON veriyi al
+                var tempUser = '@TempData["TempUser"]';
+
+                if (tempUser) {
+                    // JSON verisini parse et
+                    var user = JSON.parse(tempUser);
+
+           
+                    // Yeni verileri localStorage'a ekle
+                    localStorage.setItem("Kullanici_adi", user.Username);
+                    localStorage.setItem("Email", user.Email);
+                }
+            }
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var girisSayisiHatasi = @Html.Raw(Json.Serialize(ViewBag.GirisSayisiHatasi));
+            if (girisSayisiHatasi) {
+                Giris_Sayisi_Hatasi();
+            }
+        });
+
+        function Giris_Sayisi_Hatasi() {
+            Swal.fire({
+                title: 'Giriş Hakkınız Kalmadı!',
+                text: 'Lütfen 24 saat sonra tekrar deneyiniz.',
+                icon: 'warning',
+                background: '#d9534f',  // Sarı arka plan rengi
+                color: '#ffffff',  // Beyaz metin rengi
+                backdrop: `
+                            rgba(255, 0, 0, 0.4)  // Kırmızı arka plan gölgesi
+                        `,
+                confirmButtonText: 'Tamam',
+                confirmButtonColor: '#f39c12',  // Kırmızı buton rengi
+            }).then(() => {
+                // Uyarı kapandıktan sonra login sayfasına yönlendir
+                window.location.href = '/Admin/Account/Login';
+            });
+        }
+
+
+        function Son_Giris_Hakki() {
+            Swal.fire({
+                title: 'Son Giriş Hakkınız!',
+                text: 'Bu, giriş hakkınızın son kullanımından önceki uyarıdır. Lütfen dikkatli olun.',
+                icon: 'warning',
+                background: '#f39c12',  // Sarı arka plan rengi
+                color: '#ffffff',  // Beyaz metin rengi
+                backdrop: `
+                        rgba(255, 0, 0, 0.4)  // Kırmızı arka plan gölgesi
+                    `,
+                confirmButtonText: 'Tamam',
+                confirmButtonColor: '#d9534f',  // Kırmızı buton rengi
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // URL'den query parametrelerini alın
+            const params = new URLSearchParams(window.location.search);
+            const onayla = params.get('Giris_Yapabilmesi_icin_Onayla');
+
+            // `Giris_Yapabilmesi_icin_Onayla` query parametresini kontrol et
+            if (onayla === 'true') {
+                // SweetAlert göster
+                Swal.fire({
+                    title: 'Aramıza Hoşgeldin',
+                    text: 'Profiline girebilmen için giriş yapmalısın.',
+                    icon: 'info',
+                    background: '#F0F0F0',  // Sarı arka plan rengi
+                    color: '#191919',  // Beyaz metin rengi
+                    backdrop: `
+                                       rgb(0,123,255)  // Kırmızı arka plan gölgesi
+                            `,
+                    confirmButtonText: 'Tamam',
+                    confirmButtonColor: '#8A2BE2'  // Kırmızı buton rengi
+                });
+            }
+        });
+
+
+
+    
+
+    </script>
+
+
+   
+</body>
+</html>

@@ -1,0 +1,122 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Şifre Oluştur</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .reset-password-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .reset-password-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+
+        .reset-password-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .reset-password-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .reset-password-container button:hover {
+            background-color: #218838;
+        }
+
+        .reset-password-container .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="reset-password-container">
+        <h2>Yeni Şifre Oluştur</h2>
+
+        <form id="passwordForm" action="/PasswordUpdate/UpdatePassword" method="post">
+            <input type="password" name="newPassword" placeholder="Yeni Şifre" required />
+            <input type="password" name="confirmPassword" placeholder="Yeni Şifre (Tekrar)" required />
+            <div class="error-message" id="error-message" style="display:none;">Şifreler uyuşmuyor!</div>
+            <button type="submit">Şifreyi Güncelle</button>
+        </form>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#passwordForm').on('submit', function (e) {
+                    e.preventDefault();
+
+                    var newPassword = $('input[name="newPassword"]').val();
+                    var confirmPassword = $('input[name="confirmPassword"]').val();
+
+                    if (newPassword !== confirmPassword) {
+                        $('#error-message').show();
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/PasswordUpdate/UpdatePassword',
+                        type: 'POST',
+                        data: { newPassword: newPassword },
+                        success: function (response) {
+                            if (response.success) {
+                                window.location.href = response.redirectUrl;
+                            } else {
+                                alert(response.message);
+                            }
+                        }
+                    });
+                });
+            });
+        
+        document.querySelector('form').addEventListener('submit', function (event) {
+            var newPassword = document.querySelector('input[name="newPassword"]').value;
+            var confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+
+            if (newPassword !== confirmPassword) {
+                event.preventDefault();
+                document.getElementById('error-message').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

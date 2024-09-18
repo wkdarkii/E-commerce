@@ -1,0 +1,59 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f4e3; /* Krem rengi arka plan */
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    color: #6b4f29; /* Kahverengi başlık */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    table th, table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #e6d9c3; /* Krem rengi başlık */
+        color: #6b4f29; /* Kahverengi metin */
+    }
+
+    table td img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    table tbody tr:nth-child(odd) {
+        background-color: #f0e9d9; /* Alternatif krem rengi arka plan */
+    }
+
+    table tbody tr:hover {
+        background-color: #e6d9c3;
+        transition: background-color 0.3s ease;
+    }

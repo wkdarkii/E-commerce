@@ -1,0 +1,169 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Ürün Yorumları";
+    var canAddComment = ViewBag.CanAddComment as bool?;
+    var productComments = ViewBag.ProductComments as IEnumerable<dynamic>;
+    var yorumKaydedildi = ViewBag.YorumKaydedildi;
+}
+<head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/yorum.css">
+
+</head>
+<style>
+    .icon a {
+        text-decoration: none; /* Altındaki çizgiyi kaldırır */
+        color: #333; /* Normal durumda metin rengi */
+        font-size: 16px; /* Yazı boyutu */
+        display: flex; /* Simge ve metni aynı hizada tutar */
+        align-items: center; /* Simge ve metni ortalar */
+        padding: 10px 15px; /* İçeriden boşluk */
+        background-color: #f0f0f0; /* Hafif arka plan rengi */
+        border-radius: 5px; /* Kenarları yuvarlar */
+        transition: background-color 0.3s ease; /* Hover animasyonu */
+    }
+
+        .icon a:hover {
+            background-color: #ddd; /* Üzerine gelindiğinde arka plan rengi */
+            color: #000; /* Üzerine gelindiğinde yazı rengi */
+        }
+
+        .icon a i {
+            margin-right: 8px; /* Simge ile yazı arasındaki boşluk */
+        }
+
+</style>
+<link href="~/UrunYorumlari/Yorum.css" rel="stylesheet" />
+
+<div id="no-comments-message" class="no-comments-message" style="display: none;">
+    <img src="~/UrunYorumlari/yorumyok.png" alt="No Comments" class="no-comments-image">
+    <p>Bu ürün hakkında şu ana kadar hiç yorum yapılmadı.</p>
+</div>
+<div class="container">
+    <div class="be-comment-block">
+        <h1 class="comments-title">Yorumlar (@productComments.Count())</h1>
+
+   
+
+        @foreach (var comment in productComments)
+        {
+            <div class="be-comment">
+                <div class="be-img-comment">
+                    <a href="blog-detail-2.html">
+                        <img src="~/Kullanici_img/@comment.UserImage" alt="" class="be-ava-comment">
+                    </a>
+                </div>
+                <div class="be-comment-content">
+                    <span class="be-comment-name">
+                        <a href="blog-detail-2.html">@comment.UserName</a>
+                    </span>
+                    <span class="be-comment-time">
+                        <i class="fa fa-clock-o"></i>
+                        @comment.CommentDate.ToString("MMM dd, yyyy 'at' h:mmtt")
+                    </span>
+                    <p class="be-comment-text">
+                        @comment.Comment
+                    </p>
+                </div>
+            </div>
+        }
+
+        @if (canAddComment == true)
+        {
+            <form class="form-block" method="post" action="/urunyorumlari/yorumEkle">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group fl_icon">
+                            <div class="icon"><i class="fa fa-user"></i></div>
+                            <input class="form-input" type="text" name="userName" value="@ViewBag.KullaniciAdi" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 fl_icon">
+                        <div class="form-group fl_icon">
+                            <div class="icon" style="overflow: hidden; white-space: nowrap;">
+                                <a href="javascript:history.back();" title="Geri Dön" style="display: inline-block; text-decoration: none; color: #333; background-color: #f0f0f0; padding: 10px 15px; border-radius: 5px;">
+                                    <i class="fa fa-arrow-left" style="margin-right: 8px;"></i> 
+                                </a>
+                            </div>
+
+
+                            <input class="form-input" type="text" name="email" value="@ViewBag.Email" readonly>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <textarea class="form-input" name="comment" required="" placeholder="Your text"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="productId" value="@ViewBag.ProductId">
+                    <button class="btn btn-primary pull-right" type="submit">submit</button>
+                </div>
+            </form>
+        }
+
+    </div>
+</div>
+
+
+<!-- Bu div, canAddComment false olduğunda gösterilecektir -->
+<div id="commentWarning" class="warning-box" style="display: none;">
+    <span class="close-btn" onclick="closeWarning()">&times;</span>
+    <p class="warning-message">
+        Yorum yazabilmen için ilgili ürünü satın alman ve teslim alman gerekmektedir
+    </p>
+</div>
+
+<script src="~/js/yorum.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var commentCount = @productComments.Count(); // Bu değeri backend'den dinamik olarak almanız gerekiyor
+
+        if (commentCount === 0) {
+            document.getElementById('no-comments-message').style.display = 'block';
+        }
+    });
+
+    $(document).ready(function () {
+        // Razor içindeki değeri JavaScript içinde kullanma
+        var yorumKaydedildi = '@(ViewBag.YorumKaydedildi ?? false)'; // Eğer ViewBag.YorumKaydedildi null ise false döner
+
+        // Eğer yorumKaydedildi true olarak geliyorsa
+        if (yorumKaydedildi === 'True') {
+            Swal.fire({
+                title: 'Yorum Kaydedildi',
+                text: 'Yorumunuz başarıyla kaydedildi.',
+                icon: 'success',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: true
+            });
+        }
+    });
+
+
+ 
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var yorumYazamaz = '@TempData["yorum_Yazamaz"]';
+
+        if (yorumYazamaz === 'True') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Yorum Yazamazsınız',
+                text: 'Yorum yazabilmek için ürünü satın almanız ve teslim almanız gerekmektedir.',
+                confirmButtonText: 'Tamam'
+            });
+        }
+    });
+</script>

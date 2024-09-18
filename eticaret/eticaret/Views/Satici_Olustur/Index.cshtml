@@ -1,0 +1,162 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Tanıtım Formu</title>
+    <link rel="stylesheet" href="~/Kullanici_Arayuz/Satici_Olustur/deneme.css">
+
+  
+</head>
+<body>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="container">
+            <h2>İlan Yayınla</h2>
+
+          
+
+            <!-- Biraz Bilgi Ekle -->
+            <div class="form-group">
+                <h3>Bilgi Ekle</h3>
+                <label for="Kategori">Kategori:</label>
+                <select id="Kategori" name="Kategori">
+                    <option value="Samsung">Fashion</option>
+                    <option value="Apple">Electronics</option>
+                    <option value="Huawei">Sporting Goods</option>
+                    <option value="Huawei">Home & Garden</option>
+                </select>
+
+                <div class="form-group">
+                    <h3>Ürünün bilgileri:</h3>
+                    <label for="Product">Ürünün İsmi:</label>
+                    <input type="text" id="Product" name="Product">
+                </div>
+
+                <label for="durum">Durum:</label>
+                <div class="custom-radio-group">
+                    <label class="custom-radio-option deneme">
+                        Yeni
+                        <input type="radio" name="durum" value="Yeni">
+                    </label>
+                    <label class="custom-radio-option">
+                        İkinci El
+                        <input type="radio" name="durum" value="İkinci El">
+                    </label>
+                    <label class="custom-radio-option">
+                        Yenilenmiş
+                        <input type="radio" name="durum" value="Yenilenmiş">
+                    </label>
+                    <label class="custom-radio-option">
+                        Eski
+                        <input type="radio" name="durum" value="Eski">
+                    </label>
+                    <label class="custom-radio-option">
+                        Yıpranmış
+                        <input type="radio" name="durum" value="Yıpranmış">
+                    </label>
+                </div>
+
+                <label for="aciklama">Açıklama:</label>
+                <textarea id="aciklama" name="aciklama" rows="4"></textarea>
+            </div>
+
+            <!-- Fiyat Belirle -->
+            <div class="price-group">
+                <h3>Fiyat Belirle</h3>
+                <label for="price-input">Fiyat:</label>
+                <input type="text" id="price-input" name="fiyat" placeholder="TL / 0" oninput="validateNumber(this)">
+            </div>
+
+            <!-- Fotoğraf Yükle -->
+            <div class="form-group">
+                <h3>Fotoğraf Yükle</h3>
+                <input type="file" id="UrunResim" name="UrunResim" accept="image/*" class="file-input">
+                <div id="imagePreview" class="image-preview">
+                    <img id="previewImg" src="" alt="Yüklenen Resim" style="display:none;">
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="imageModal" class="modal">
+                <span class="close">&times;</span>
+                <img class="modal-content" id="modalImg">
+                <div id="caption"></div>
+            </div>
+
+            <!-- Konumunu Onayla -->
+            <div class="form-group">
+                <h3>Konumunu Onayla</h3>
+                <label for="sehir">Şehir:</label>
+                <select id="sehir" name="sehir">
+                    <option value="İstanbul">İstanbul</option>
+                    <option value="Ankara">Ankara</option>
+                    <option value="İzmir">İzmir</option>
+                </select>
+
+                <label for="ilce">İlçe:</label>
+                <select id="ilce" name="ilce">
+                    <option value="Kadıköy">Kadıköy</option>
+                    <option value="Beşiktaş">Beşiktaş</option>
+                    <option value="Çankaya">Çankaya</option>
+                </select>
+            </div>
+
+            <!-- Bilgilerini Gözden Geçir -->
+            <div class="form-group">
+                <h3>Bilgilerini Gözden Geçir</h3>
+                <label for="adsoyad">Ad Soyad:</label>
+                <input type="text" id="adsoyad" name="adsoyad">
+
+                <label for="email">E-posta:</label>
+                <input type="email" id="email" name="email">
+            </div>
+
+            <!-- Formu Gönder -->
+            <button type="submit" class="submit-btn">İlanı Yayınla</button>
+        </div>
+    </form>
+
+
+    <script src="~/Kullanici_Arayuz/Satici_Olustur/deneme.js"></script>
+    <script src="~/Kullanici_Arayuz/Satici_Olustur/deneme2.js"></script>
+    <!-- Gerekli kütüphanelerin eklenmesi -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+            // TempData ile 'Urun_Kayiti_Onaylandi' kontrolü
+            var isProductSaved = '@TempData["Urun_Kayiti_Onaylandi"]' === 'True';
+
+            if (isProductSaved) {
+                Swal.fire({
+                    icon: 'success', // Tik (onay) işareti
+                    title: 'Başarılı!',
+                    html: `
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div class="swal2-loader" style="margin-bottom: 10px;"></div>
+                            <p>Ürününüz başarılı bir şekilde ilana koyulmuştur.</p>
+                        </div>
+                    `,
+                    timer: 4000, // 4 saniye boyunca göster
+                    showConfirmButton: false, // Onay butonunu gösterme
+                    willClose: () => {
+                        window.location.href = '@Url.Action("Index", "Ilanlar")'; // 4 saniye sonra yönlendirme
+                    },
+                    didOpen: () => {
+                        Swal.showLoading(); // Yükleme ikonu
+                    }
+                });
+            }
+        });
+
+
+    </script>
+
+
+</body>
+</html>

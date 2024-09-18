@@ -1,0 +1,129 @@
+﻿/* Modal arka planı */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Daha koyu yarı şeffaf arka plan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Diğer içeriklerin üzerinde */
+}
+
+/* Modal içeriği */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden; /* İçeriğin taşmasını önler */
+}
+
+/* Modal kapatma butonu */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+    .close:hover {
+        color: #e74c3c; /* Renk değişimi efekti */
+    }
+
+/* Ürün kartı */
+.product-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+    .product-card img {
+        max-width: 100%;
+        max-height: 300px;
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+        .product-card img:hover {
+            transform: scale(1.05); /* Hover efekti */
+        }
+
+    .product-card h3 {
+        margin: 15px 0 10px;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .product-card .price {
+        font-size: 1.2em;
+        color: #e74c3c;
+        margin-bottom: 10px;
+    }
+
+    .product-card .description {
+        font-size: 1em;
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+    .product-card .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 8px;
+        background-color: #3498db; /* Mavi arka plan rengi */
+        color: #fff; /* Beyaz metin rengi */
+        text-decoration: none;
+        font-size: 1em;
+        font-weight: bold;
+        text-transform: uppercase; /* Metni büyük harf yapar */
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid transparent; /* Border ve arka plan arasında geçiş sağlar */
+        cursor: pointer; /* Tıklanabilir görünüm */
+    }
+
+        .product-card .btn:hover {
+            background-color: #2980b9; /* Hover sırasında arka plan rengini koyulaştırır */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Hover sırasında gölge efekti ekler */
+            transform: translateY(-2px); /* Hover sırasında butonu hafif yukarı kaydırır */
+        }
+
+        .product-card .btn:active {
+            background-color: #1f5f8d; /* Butona tıklandığında arka plan rengini değiştirir */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Butona tıklandığında gölgeyi azaltır */
+            transform: translateY(0); /* Butonu eski konumuna geri getirir */
+        }
+
+/* Satıcı bilgileri */
+.seller-info {
+    margin-top: 20px;
+}
+
+    .seller-info h4 {
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .seller-info p {
+        font-size: 1em;
+        color: #555;
+        margin-bottom: 5px;
+    }
+

@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+
+
+<link rel="stylesheet" href="~/admin/css/KullanıcıRapor.css">
+<table class="body-wrap">
+    <tbody>
+        <tr>
+            <td></td>
+            <td class="container" width="600">
+                <div class="content">
+                    <table class="main" width="100%" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="content-wrap aligncenter">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="content-block">
+                                                    <h2>Sitemi kullandığın için Teşekkür ederim</h2>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="content-block">
+                                                    <table class="invoice">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>@ViewBag.UrunAdi<br>Invoice #12345<br>@DateTime.Now.ToString("MMMM dd yyyy")</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <table class="invoice-items" cellpadding="0" cellspacing="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>@ViewBag.UrunAdi</td>
+                                                                                <td class="alignright">@ViewBag.UrunFiyat.ToString("C")</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>@ViewBag.UrunAciklama</td>
+                                                                                <td class="alignright"></td>
+                                                                            </tr>
+                                                                            <tr class="total">
+                                                                                <td class="alignright" width="80%">Total</td>
+                                                                                <td class="alignright">@ViewBag.UrunFiyat.ToString("C")</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="content-block">
+                                                    <a href="#">PDF</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="content-block">
+                                                    Company Inc. 123 Van Ness, San Francisco 94102
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="footer">
+                        <table width="100%">
+                            <tbody>
+                                <tr>
+                            
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelector('a[href="#"]').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // PDF'ye dönüştürülecek HTML elementini seçin
+            const element = document.querySelector('table');
+
+            // HTML2PDF seçenekleri
+            const opt = {
+                margin: 0.5,
+                filename: 'document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // HTML elementini PDF'ye dönüştürme
+            html2pdf().set(opt).from(element).save();
+        });
+    });
+</script>
+

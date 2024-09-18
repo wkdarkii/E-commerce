@@ -1,0 +1,118 @@
+﻿@model IEnumerable<eticaret.Models.Product> 
+
+<!-- Doğru ad alanını kullanın -->
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Products grid | Lager - eCommerce HTML Template";
+}
+
+
+
+
+<link rel="stylesheet" href="~/Product_Grid/ProductGrid.css">
+
+
+<div class="button-container">
+    <a href="javascript:history.back()" class="back-button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 19l-7-7 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Geri Dön
+    </a>
+</div>
+
+
+<div class="container">
+
+    <div class="input">
+        <input type="range" min="50" max="1000" value="10" step="10" id="priceSlider">
+        <span id="sliderValue">$10</span>
+    </div>
+
+    <div class="product-list" id="productList">
+        @foreach (var product in Model)
+        {
+          
+            <div class="product" data-price="@product.price">
+            
+                <div class="img">
+                    <a href="@Url.Action("product", "Product", new { id = product.id })">
+                        <img src="~/dasdasdsadasas/www.elathemes.com/themes/lager/assets/images/@product.img" alt="@product.name">
+                    </a>
+                </div>
+                <div class="info">
+                    <h3>@product.name</h3>
+                    <p>@product.price.ToString("C")</p>
+                </div>
+                <button> <a href="@Url.Action("product", "Product", new { id = product.id })" >Sepete Ekle</a> </button>
+            
+            </div>
+             
+        }
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+
+
+
+
+
+<!-- Footer Section -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="~/Product_Grid/Product_Grid.js"></script>
+<!-- JavaScript for Category Filtering -->
+<script>
+    function filterCategory(category) {
+        var items = document.querySelectorAll('.product-item');
+        items.forEach(function (item) {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('.category-selection button').forEach(function (btn) {
+            btn.classList.remove('active');
+        });
+        document.querySelector('[onclick="filterCategory(\'' + category + '\')"]').classList.add('active');
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Debug mesajı
+        console.log("JavaScript çalışıyor...");
+
+        var grid = document.getElementById('productList');
+
+        // `grid` öğesi mevcut mu kontrol et
+        if (grid) {
+            var products = Array.from(grid.getElementsByClassName('product'));
+
+            // Ürünler bulunuyor mu kontrol ediyoruz
+            console.log("Bulunan ürün sayısı: ", products.length);
+
+            // Ürünleri fiyatlarına göre sıralama
+            products.sort(function (a, b) {
+                console.log("Sıralama işlemi yapılıyor...");
+                return parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price'));
+            });
+
+            // Sıralı ürünleri tekrar listeye ekleme
+            products.forEach(function (product) {
+                grid.appendChild(product);
+            });
+
+            console.log("Sıralama işlemi tamamlandı.");
+        } else {
+            console.error("Grid öğesi bulunamadı.");
+        }
+    });
+</script>

@@ -1,0 +1,13 @@
+HTTrack3.49-2+htsswf+htsjava launched on Mon, 12 Aug 2024 23:27:31 at http://www.elathemes.com/themes/lager/?storefront=envato-elements +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" http://www.elathemes.com/themes/lager/?storefront=envato-elements -O1 "C:\Users\Galaxy Destryor\Desktop\dasdasdsadasas" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+23:32:03	Error: 	"Not Found" (404) at link www.elathemes.com/themes/lager/blog-1.html (from www.elathemes.com/themes/lager/ideas.html)
+23:32:03	Error: 	"Not Found" (404) at link www.elathemes.com/themes/lager/$ (from www.elathemes.com/themes/lager/article.html)
+
+HTTrack Website Copier/3.49-2 mirror complete in 4 minutes 39 seconds : 120 links scanned, 117 files written (8348548 bytes overall) [7590625 bytes received at 27206 bytes/sec], 966488 bytes transferred using HTTP compression in 14 files, ratio 17%
+(2 errors, 0 warnings, 0 messages)

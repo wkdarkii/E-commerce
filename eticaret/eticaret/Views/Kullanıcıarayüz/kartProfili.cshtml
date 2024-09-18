@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <link rel="stylesheet" href="~/kredikarti/kart.css">
+  
+</head>
+<body>
+    <div class="container" >
+        <div class="card">
+            <div class="card-inner">
+                <div class="front">
+                    <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                    <div class="row">
+                        <img src="https://i.ibb.co/G9pDnYJ/chip.png" width="60px">
+                        <img src="https://i.ibb.co/WHZ3nRJ/visa.png" width="60px">
+                    </div>
+                    <div class="row card-no">
+                        <p id="card-number">5244 2150 8252 6420</p>
+                    </div>
+                    <div class="row card-holder">
+                        <p id="card-holder">CARD HOLDER</p>
+                        <p id="valid-until">VALID TILL</p>
+                    </div>
+                    <div class="row name">
+                        <p id="card-name">JOE ALISON</p>
+                        <p id="expiry-date">10 / 25</p>
+                    </div>
+                </div>
+                <div class="back">
+                    <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                    <div class="bar"></div>
+                    <div class="row card-cvv">
+                        <div>
+                            <img src="https://i.ibb.co/S6JG8px/pattern.png">
+                        </div>
+                        <p id="cvv">824</p>
+                    </div>
+                    <div class="row card-text">
+                        <p>this is a virtual card design using HTML and CSS. You can also design something like this.</p>
+                    </div>
+                    <div class="row signature">
+                        <p>CUSTOMER SIGNATURE</p>
+                        <img src="https://i.ibb.co/WHZ3nRJ/visa.png" width="80px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-container" style="margin-right:50px;">
+        <form id="card-form" asp-controller="Kullanıcıarayüz" asp-action="UpdateCart" method="post" style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 400px; margin: auto; font-family: 'Arial', sans-serif;">
+            <label for="card-number-input" style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">Card Number:</label>
+            <input type="text" id="card-number-input" name="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px;">
+
+            <label for="card-holder-input" style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">Card Holder:</label>
+            <input type="text" id="card-holder-input" name="cardHolder" placeholder="JOHN DOE" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px;">
+
+            <label for="expiry-month" style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">Expiry Month:</label>
+            <input type="text" id="expiry-month" name="expiryMonth" maxlength="2" placeholder="MM" style="width: 48%; padding: 10px; margin-right: 4%; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px;">
+
+            <label for="expiry-year" style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">Expiry Year:</label>
+            <input type="text" id="expiry-year" name="expiryYear" maxlength="2" placeholder="YY" style="width: 48%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px;">
+
+            <label for="cvv-input" style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">CVV:</label>
+            <input type="text" id="cvv-input" name="cvv" maxlength="3" placeholder="123" style="width: 48%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px;">
+
+            <button type="submit" style="width: 100%; background-color: #28a745; color: white; padding: 12px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer;">Update Card</button>
+        </form>
+
+
+    </div>
+
+    <script src="~/kredikarti/kart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["Error"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'error',
+                    title: 'Hata!',
+                    text: 'Lütfen Bilgilerinizi Eksiksiz Giriniz!',
+                    timer: 2500,  // 2.5 saniye beklesin
+                    showConfirmButton: false
+                    });
+            </text>
+        }
+    </script>
+</body>
+</html>
+

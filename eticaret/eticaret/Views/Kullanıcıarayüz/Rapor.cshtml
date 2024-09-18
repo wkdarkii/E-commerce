@@ -1,0 +1,134 @@
+﻿@{
+    Layout = null;
+}
+
+@model eticaret.Models.Kullanicininsattig
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="~/css/bisi.css"> <!-- CSS dosyasının yolu -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+</head>
+<body>
+    <table id="invoice" class="body-wrap">
+        <tbody>
+            <tr>
+                <td></td>
+                <td class="container" width="600">
+                    <div class="content">
+                        <table class="main" width="100%" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="content-wrap aligncenter">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <h2>Thanks for using our app</h2>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <table class="invoice">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <br>
+                                                                        Satış numarası: @Model.Id<br>
+                                                                        @DateTime.Now.ToString("MMMM dd, yyyy")
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <table class="invoice-items" cellpadding="0" cellspacing="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>@Model.UrunAdi</td>
+                                                                                    <td class="alignright">₺ @Model.UrunFiyat.ToString("0.00")</td>
+                                                                                </tr>
+                                                                                <tr class="total">
+                                                                                    <td class="alignright" width="80%">Total</td>
+                                                                                    <td class="alignright">₺ @Model.UrunFiyat.ToString("0.00")</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="content-block">
+                                                        <a href="#" id="downloadPdf">PDF</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="content-block">
+                                                        Company Inc. 123 Van Ness, San Francisco 94102
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="footer">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                       @*  <td class="aligncenter content-block">Questions? Email <a href="mailto:support@company.inc">support@company.inc</a></td> *@
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('downloadPdf').addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // Ensure html2canvas and jsPDF are available
+            if (typeof html2canvas === 'undefined' || typeof jsPDF === 'undefined') {
+                alert('Required libraries are missing.');
+                return;
+            }
+
+            html2canvas(document.getElementById('invoice')).then(function (canvas) {
+                var imgData = canvas.toDataURL('image/png');
+                var pdf = new jsPDF('p', 'mm', 'a4');
+                var imgWidth = 210; // A4 width in mm
+                var pageHeight = 295; // A4 height in mm
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+                var position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                pdf.save('invoice.pdf');
+            }).catch(function (error) {
+                console.error('Error generating PDF:', error);
+            });
+        });
+    </script>
+</body>
+</html>

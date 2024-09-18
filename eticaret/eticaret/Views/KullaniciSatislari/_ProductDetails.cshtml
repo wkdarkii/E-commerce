@@ -1,0 +1,77 @@
+﻿@model eticaret.Models.Seller
+@{
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.UrunAdi</title>
+    <!-- Include CSS and other assets here -->
+    <style>
+
+        /* Genel Sayfa Stilleri */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #666;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.price {
+    font-size: 1.2em;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+
+
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>@Model.UrunAdi</h1>
+    <p>@Model.UrunAciklama</p>
+    <p>Price: @Model.UrunFiyat</p>
+    <img src="@Model.UrunResim" alt="@Model.UrunResim" />
+    <!-- Add more product details as needed -->
+</body>
+</html>

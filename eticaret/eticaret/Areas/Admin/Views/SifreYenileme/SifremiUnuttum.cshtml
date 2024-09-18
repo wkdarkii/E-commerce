@@ -1,0 +1,292 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şifre Sıfırlama</title>
+    <link href="~/admin/SifreYenileme/SifreSifirlama.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+</head>
+<body>
+    <div id="loader" class="loader">
+        <div></div>
+    </div>
+
+    <div id="resetPasswordRequest" class="container" style="display: block;">
+        <h2>Şifrenizi Mi Unuttunuz?</h2>
+        <p>Lütfen e-posta adresinizi girin.</p>
+        <form id="resetPasswordForm">
+            <label for="email">E-posta:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="button" onclick="handleEmailSubmit()">Gönder</button>
+        </form>
+    </div>
+
+    <div id="securityQuestions" class="container" style="display: none;">
+        <h2>Güvenlik Soruları</h2>
+        <p>Lütfen kullanıcı adı, doğum tarihi ve telefon numarası bilgilerini girin.</p>
+        <form id="securityQuestionsForm" action="/Admin/SifreYenileme/ValidateSecurityQuestions" method="post">
+            <label for="username">Kullanıcı Adı:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="dob">Doğum Tarihi:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="phonenumber">Telefon Numarası:</label>
+            <input type="text" id="phonenumber" name="phonenumber" required>
+
+            <button type="submit">Doğrula</button>
+        </form>
+    </div>
+
+
+ @*    <div id="passwordInfo" class="container" style="display: none;">
+        <div class="message">Lütfen yeni şifrenizi unutmayınız.</div>
+        <p>Kullanıcı Adınız: <span id="displayUsername"></span></p>
+        <p>Şifreniz: <span id="displayPassword"></span></p>
+    </div> *@
+    <div id="passwordInfo" class="info-container" style="display: none;">
+        <div class="info-box">
+            <h2 class="info-title">Bilgi!</h2>
+            <p class="info-message">Kullanıcı bilgileriniz mail adresinize gönderilmiştir.</p>
+            <form id="verificationForm">
+                <label for="resetCode">Tek Seferlik Kod:</label>
+                <input type="text" id="resetCode" name="resetCode" required>
+                <button type="button" onclick="handleCodeSubmit()">Onayla</button>
+            </form>
+            <button type="button" onclick="handleCodeSubmit()">Onayla</button>
+        </div>
+    </div>
+
+    <script>
+        function handleCodeSubmit() {
+            var resetCode = document.getElementById('resetCode').value; // Tek seferlik kodu al
+            if (!resetCode) {
+                alert('Lütfen kodu girin.');
+                return;
+            }
+
+            // SessionStorage'dan e-posta adresini al
+            var email = sessionStorage.getItem('email');
+            if (!email) {
+                alert('Oturum bilgisi bulunamadı.');
+                return;
+            }
+
+            // Post verisini hazırla
+            var postData = {
+                email: email,
+                resetCode: resetCode
+            };
+
+            // POST isteğini yap
+            fetch('/SifreYenileme/KodOnay', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Kod doğrulandı, şimdi şifrenizi sıfırlayabilirsiniz.');
+                        window.location.href = '/SifreYenileme/SifreYenile';
+                    } else {
+                        alert('Kod doğrulama başarısız: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                    alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                });
+        }
+    </script>
+
+
+
+    <script src="~/admin/SifreYenileme/package.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+
+
+
+
+
+
+
+        function showLoaderAndTransition(nextStepFunction) {
+            document.getElementById('loader').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                nextStepFunction();
+            }, 2000); // 2 saniye bekle
+        }
+
+        function handleEmailSubmit() {
+            const email = document.getElementById('email').value;
+            $.post('/Admin/SifreYenileme/CheckEmail', { email: email }, function (response) {
+                if (response.success) {
+                    showLoaderAndTransition(() => {
+                        document.getElementById('resetPasswordRequest').style.display = 'none';
+                        document.getElementById('securityQuestions').style.display = 'block';
+                    });
+                } else {
+                    alert(response.message);
+                }
+            });
+        }
+
+        function handleSecuritySubmit() {
+            const username = document.getElementById('username').value;
+            const dob = document.getElementById('dob').value;
+            const phonenumber = document.getElementById('phonenumber').value;
+
+            $.post('/Admin/SifreYenileme/ValidateSecurityQuestions', {
+                username: username,
+                dob: dob,
+                phonenumber: phonenumber
+            }, function (response) {
+                if (response.success) {
+                    showLoaderAndTransition(() => {
+                        document.getElementById('securityQuestions').style.display = 'none';
+                        document.getElementById('passwordInfo').style.display = 'block';
+                        document.getElementById('displayUsername').textContent = response.username;
+                        document.getElementById('displayPassword').textContent = response.password;
+                    });
+                } else {
+                    alert(response.message);
+                }
+            });
+        }
+
+
+        function handleEmailSubmit() {
+            const email = document.getElementById('email').value;
+
+            $.ajax({
+                url: '@Url.Action("CheckEmail", "SifreYenileme", new { area = "Admin" })',
+                type: 'POST',
+                data: { email: email },
+                success: function (response) {
+                    if (response.success) {
+                        // E-posta adresi bulunduysa, güvenlik soruları formunu göster
+                        showLoaderAndTransition(() => {
+                            document.getElementById('resetPasswordRequest').style.display = 'none';
+                            document.getElementById('securityQuestions').style.display = 'block';
+                        });
+                    } else {
+                        // SweetAlert ile mesaj göster ve 2 saniye sonra formu tekrar göster
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata',
+                            text: response.message,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            didClose: () => {
+                                // Burada tekrar mevcut formu gösterebilirsin.
+                                document.getElementById('resetPasswordRequest').style.display = 'block';
+                            }
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                        timer: 2000,
+                        timerProgressBar: true
+                    });
+                }
+            });
+        }
+
+
+
+        $(document).ready(function () {
+            // AJAX çağrısı sonucu gelen JSON verisi ile işlem yapma
+            function handleResponse(response) {
+                if (response.success) {
+                    Swal.fire({
+                        title: 'Bilgi!',
+                        text: response.message,
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Giriş Yap',
+                        cancelButtonText: 'İptal',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Kullanıcı "Giriş Yap" butonuna tıkladı
+                            window.location.href = '/Admin/Account/Login'; // Yönlendirme adresi
+                        }
+                    });
+                } else {
+                    // Hatalı bilgi durumunu işleyin
+                    hatali_bilgi();
+                }
+            }
+
+            // Form gönderim işlemi
+            $('#yourFormId').submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/YourController/ValidateSecurityQuestions', // Controller ve metot yolu
+                    data: $(this).serialize(),
+                    success: handleResponse,
+                    error: function (xhr, status, error) {
+                        console.log('AJAX error: ' + error);
+                    }
+                });
+            });
+        });
+
+
+
+
+        function handleCodeSubmit() {
+            var resetCode = document.getElementById('resetCode').value;
+            if (!resetCode) {
+                alert('Lütfen kodu girin.');
+                return;
+            }
+
+            fetch('/SifreYenileme/OnaylaKod', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value // CSRF koruması için token
+                },
+                body: JSON.stringify({ resetCode: resetCode })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Kod doğrulandı.");
+                        // İlgili yönlendirmeyi yapın
+                        window.location.href = '/SifreYenileme/ŞifreYenile'; // Örneğin: Şifre yenileme sayfasına yönlendirme
+                    } else {
+                        alert("Kod doğrulama hatası: " + data.message);
+                    }
+                })
+                .catch(error => console.error('Hata:', error));
+        }
+
+
+    </script>
+
+
+
+</body>
+</html>
+

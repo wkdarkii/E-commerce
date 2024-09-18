@@ -1,0 +1,435 @@
+﻿ @model User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Bilgilerini Güncelle</title>
+    <link rel="stylesheet" href="~/Kullanici_Arayuz/dsas.css">
+
+
+    <style>
+
+        /* SweetAlert Penceresi için Arkaplan Rengi */
+        .swal2-popup {
+            background-color: #f5f5f5; /* Daha yumuşak bir arka plan rengi */
+            border-radius: 15px; /* Köşeleri yuvarlama */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Hafif bir gölge efekti */
+        }
+
+        /* Başlık Rengi */
+        .swal2-title {
+            color: #333333; /* Koyu gri başlık rengi */
+            font-family: 'Arial', sans-serif; /* Yazı tipi */
+            font-weight: bold; /* Kalın yazı */
+        }
+
+        /* İçerik Metni için Stil */
+        .swal2-content {
+            color: #555555; /* Metin rengi */
+            font-family: 'Verdana', sans-serif; /* Yazı tipi */
+            font-size: 16px; /* Yazı boyutu */
+        }
+
+        /* Onay Butonu için Stil */
+        .swal2-confirm {
+            background-color: #4CAF50; /* Yeşil buton rengi */
+            color: white; /* Beyaz yazı rengi */
+            border-radius: 10px; /* Yuvarlak köşeler */
+            padding: 10px 20px; /* Buton içi boşluklar */
+            font-size: 16px; /* Yazı boyutu */
+        }
+
+            /* Onay Butonu Üzerine Gelindiğinde */
+            .swal2-confirm:hover {
+                background-color: #45a049; /* Biraz daha koyu bir yeşil */
+            }
+
+        /* Zaman Çubuğu için Stil */
+        .swal2-timer-progress-bar {
+            background-color: #4CAF50; /* Yeşil zaman çubuğu */
+        }
+
+        .profile-images-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Gap between images and transition icon */
+        }
+
+        .current-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start; /* Align to the left */
+        }
+
+        .current-image {
+            width: 200px;
+            height: auto;
+            border: 2px solid #ddd; /* Optional: border for better visibility */
+            border-radius: 8px; /* Optional: rounded corners */
+        }
+
+        .transition-icon {
+            font-size: 24px;
+            color: #888;
+        }
+
+        .new-image-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Align to the right */
+        }
+
+        .upload-button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px; /* Space between button and preview */
+        }
+
+            .upload-button:hover {
+                background-color: #0056b3;
+            }
+
+        input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+
+        .new-image-preview {
+            display: none; /* Initially hide the preview */
+            width: 200px;
+            height: auto;
+            border: 2px solid #ddd; /* Optional: border for better visibility */
+            border-radius: 8px; /* Optional: rounded corners */
+        }
+
+        /* Profil Başlığı Stili */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Başlık ve butonu ayırır */
+            background: rgba(0, 0, 0, 0.1); /* Hafif şeffaf arka plan */
+            padding: 10px 20px; /* Üst-alt ve sağ-sol padding */
+            border-radius: 8px; /* Köşeleri yuvarlatır */
+        }
+
+        /* Buton Stili */
+        .change-password-button {
+            background-color: #ff6f00; /* Turuncu renk */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 20px; /* Başlık ve buton arasında boşluk bırakır */
+            transition: background-color 0.3s ease; /* Buton geçiş efekti */
+        }
+
+            .change-password-button:hover {
+                background-color: #e65c00; /* Buton üzerine gelince renk değişimi */
+            }
+
+
+        .unique-card-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .unique-card-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+            .unique-card-button:hover {
+                background-color: #45a049;
+                transform: scale(1.05);
+            }
+
+        .fixed-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+        }
+
+        #logout-btn {
+            background-color: #ff4d4d; /* Kırmızı buton rengi */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+            #logout-btn:hover {
+                background-color: #cc0000; /* Buton üzerine gelindiğinde koyulaşan kırmızı */
+            }
+
+    </style>
+</head>
+<body>
+    <div class="container semi-transparent" style="margin-top:200px;">
+        <!-- Buraya class eklendi -->
+        <div class="profile-card">
+            <div class="profile-header semi-transparent">
+                <h2>Kullanıcı Bilgilerini Güncelle</h2>
+                <a href="/Kullanıcıarayüz/sifreDegistir" class="change-password-button">Şifremi Değiştir</a>
+            </div>
+
+
+
+@* 
+            <form asp-action="Profili_Guncelle" method="post" id="profile-form">
+    <div class="form-group semi-transparent">
+        <label for="username">Kullanıcı Adı:</label>
+        <input type="text" id="username" name="username" value="@Model.Kullanici_adi" >
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="email">E-posta:</label>
+        <input type="email" id="email" name="email" value="@Model.Email" >
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="phone">Telefon:</label>
+        <input type="tel" id="phone" name="phone" value="@Model.PhoneNumber" placeholder="Telefon Numaranız">
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="address">Adres:</label>
+        <textarea id="address" name="address" placeholder="Adresiniz">@Model.Adres</textarea>
+    </div>
+    <div class="form-group inputcinsiyet">
+                    <select id="gender" name="gender">
+                        @if (Model.Cinsiyet==true)
+                        {
+                            <option value="male" selected>Erkek</option>
+                            <option value="female">Kadın</option>
+                        }
+                        else
+                        {
+                            <option value="male">Erkek</option>
+                            <option value="female" selected>Kadın</option>
+                        }
+                    </select>
+
+
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="birthdate">Doğum Tarihi:</label>
+        <input type="date" id="birthdate" name="birthdate" value="@Model.D_Tarihi.ToString("yyyy-MM-dd")">
+    </div>
+    <button type="submit" class="semi-transparent">Güncelle</button>
+</form>
+ *@
+
+
+
+<form asp-action="Profili_Guncelle" method="post" id="profile-form" enctype="multipart/form-data">
+    <div class="form-group semi-transparent">
+        <label for="username">Kullanıcı Adı:</label>
+        <input type="text" id="username" name="Kullanici_adi" value="@Model.Kullanici_adi" >
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="email">E-posta:</label>
+        <input type="email" id="email" name="Email" value="@Model.Email" >
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="phone">Telefon:</label>
+        <input type="tel" id="phone" name="PhoneNumber" value="@Model.PhoneNumber" placeholder="Telefon Numaranız">
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="address">Adres:</label>
+        <textarea id="address" name="Adres" placeholder="Adresiniz">@Model.Adres</textarea>
+    </div>
+
+                <div class="form-group semi-transparent">
+                    <label for="address">Profil Fotoğrafı:</label>
+                    <div class="profile-images-container">
+                        <div class="current-image-container">
+                            <img src="~/Kullanici_img/@Model.Profil_Foto" alt="Mevcut Profil Fotoğrafı" class="current-image" />
+                        </div>
+                        <div class="transition-icon">
+                            <span>&#8594;</span> <!-- Right arrow, you can change to any other icon -->
+                        </div>
+                        <div class="new-image-container">
+                            <input type="file" id="NewImage" name="newImage" accept="image/*" />
+                            <label for="NewImage" class="upload-button">Yeni Resim Ekle</label>
+                            <img id="NewImagePreview" class="new-image-preview" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+    <div class="form-group inputcinsiyet">
+        <label for="gender">Cinsiyet:</label>
+                    <select id="gender" name="gender">
+                        @if (Model.Cinsiyet == true)
+                        {
+                            <option value="male" selected>Erkek</option>
+                            <option value="female">Kadın</option>
+                        }
+                        else
+                        {
+                            <option value="male">Erkek</option>
+                            <option value="female" selected>Kadın</option>
+                        }
+                    </select>
+    </div>
+    <div class="form-group semi-transparent">
+        <label for="birthdate">Doğum Tarihi:</label>
+        <input type="date" id="birthdate" name="D_Tarihi" value="@Model.D_Tarihi.ToString("yyyy-MM-dd")">
+    </div>
+    <button type="submit" class="semi-transparent">Güncelle</button>
+</form>
+
+
+        </div>
+    </div>
+
+    <a href="@Url.Action("Index", "Main")">
+    <div class="left-div eeeeeee">
+        <div class="back-icon" title="Geriye Dön">
+            <span>&#x21A9;</span>
+        </div>
+        <span class="tooltipdsdas">Ana Menü</span>
+    </div>
+    </a>
+
+
+
+
+    <div class="unique-card-container">
+        <a href="@Url.Action("kartProfili", "Kullanıcıarayüz")">
+            <div class="unique-card-button">
+                Kart Bilgilerimi Güncelle
+            </div>
+        </a>
+    </div>
+    @* <div class="right-div">
+        <button id="seller-button">Satıcı Olmak İster Misiniz?</button>
+    </div> *@
+    <div class="right-div">
+        <form action="@Url.Action("Index", "Satici_Olustur")" method="get">
+            <button type="submit" id="seller-button">Satıcı Olmak İster Misiniz?</button>
+        </form>
+    </div>
+
+
+    <div class="fixed-button">
+        <button id="logout-btn">Çıkış Yap</button>
+    </div>
+
+
+    @{
+        // ProfilFotoGuncellendi TempData'sını kontrol ediyoruz
+        var profilFotoGuncellendi = TempData["ProfilFotoGuncellendi"] as bool?;
+    }
+
+    <!-- Diğer HTML içerikleriniz -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            // Eğer profil fotoğrafı güncellenmişse SweetAlert'i tetikle
+        @if (profilFotoGuncellendi == true)
+        {
+            <text>
+                        Swal.fire({
+                            title: 'Profil Fotoğrafı Güncellendi',
+                        text: 'Profil fotoğrafınızın ana sayfada görünmesini istiyorsanız lütfen tekrardan giriş yapın.',
+                        icon: 'info',
+                        showCloseButton: true,
+                        timer: 3000
+                            });
+            </text>
+        }
+            });
+    </script>
+
+
+
+
+
+
+
+
+    <script src="~/Kullanici_Arayuz/registeruser.js"></script>
+    <!-- SweetAlert JS dosyasını dahil edin -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 'alertShown' adında bir bayrak belirle ve kontrol et
+            if (!sessionStorage.getItem('alertShown')) {
+                // Bayrak belirlenmemişse, yani uyarı daha önce gösterilmemişse
+                Swal.fire({
+                    title: 'Dikkat!',
+                    text: 'Kullanıcı adınızı veya mailinizi değiştirirseniz yeniden giriş yapmanız gerekicek.',
+                    icon: 'info',
+                    showCloseButton: true, // X işaretini gösterir
+                    timer: 4000, // 4 saniye boyunca ekranda kalır
+                    timerProgressBar: true, // Zaman çubuğunu gösterir
+                    confirmButtonText: 'Tamam',
+                }).then(() => {
+                    // Uyarı gösterildikten sonra bayrağı 'true' olarak ayarla
+                    sessionStorage.setItem('alertShown', 'true');
+                });
+            }
+        });
+
+
+
+
+
+        document.getElementById('NewImage').addEventListener('change', function (event) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var newImagePreview = document.getElementById('NewImagePreview');
+                newImagePreview.src = e.target.result;
+                newImagePreview.style.display = 'block'; // Show the preview
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'success',
+                    title: 'Başarılı!',
+                    text: 'Kart başarıyla güncellendi.',
+                    timer: 2500,  // 2.5 saniye beklesin
+                    showConfirmButton: false
+                    });
+            </text>
+        }
+     
+
+    </script>
+
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            window.location.href = '/Kullanıcıarayüz/CikisYap'; // Yönlendirme
+        });
+    </script>
+</body>
+</html>
